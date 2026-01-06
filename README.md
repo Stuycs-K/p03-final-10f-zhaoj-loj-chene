@@ -6,12 +6,12 @@
 Elizabeth Chen, Jason Zhao, Jayden Lo
        
 ### Project Description:
+
 Music player using mpg123 that supports multiple users and stores their playlists and data over multiple uses. Runs on terminal with features such as user logins, recommendations, and basic commands like pause and skip.
   
 ### Instructions:
 
-How does the user install/compile/run the program. (CHANGE THIS!!!!!)
-Interact through terminal inputs.
+Interact through terminal inputs. (update to include specifics later)
 
 ### Resources/ References:
 
