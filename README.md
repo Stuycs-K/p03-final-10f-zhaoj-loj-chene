@@ -1,19 +1,18 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/QfAIDTGi)
-# PROJECT NAME HERE (CHANGE THIS!!!!!)
+# Music Player Manager
  
 ### GROUP NAME HERE (CHANGE THIS!!!!!)
 
-Group Members Here (CHANGE THIS!!!!!)
+Elizabeth Chen, Jason Zhao, Jayden Lo
        
 ### Project Description:
-
-Explain what is this project. (CHANGE THIS!!!!!)
+Music player using mpg123 that supports multiple users and stores their playlists and data over multiple uses. Runs on terminal with features such as user logins, recommendations, and basic commands like pause and skip.
   
 ### Instructions:
 
 How does the user install/compile/run the program. (CHANGE THIS!!!!!)
-How does the user interact with this program? (CHANGE THIS!!!!!)
+Interact through terminal inputs.
 
 ### Resources/ References:
 
-list here(CHANGE THIS!!!!!)
+mpg123 audio player
