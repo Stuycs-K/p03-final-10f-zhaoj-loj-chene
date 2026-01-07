@@ -7,15 +7,15 @@
 int server_setup() {
   //setup structs for getaddrinfo
   struct addrinfo * hints, * results;
-  hints = calloc(1,sizeof(struct addrinfo));
+  hints = calloc(1, sizeof(struct addrinfo));
   hints->ai_family = AF_INET;
-  hints->ai_socktype = SOCK_STREAM; //TCP socket
-  hints->ai_flags = AI_PASSIVE; //only needed on server
-  getaddrinfo(NULL, PORT, hints, &results);
+  hints->ai_socktype = SOCK_STREAM;
+  hints->ai_flags = AI_PASSIVE;
+  getaddrinfo(NULL, "26237", hints, &results);
 
   //create the socket
-  int clientd;//store the socket descriptor here
-  clientd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);
+  int clientd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);//store the socket descriptor here
+  err(clientd, "socket error");
 
   //this code should get around the address in use error
   int yes = 1;
@@ -26,11 +26,12 @@ int server_setup() {
   bind(clientd, results->ai_addr, results->ai_addrlen);
 
   //set socket to listen state
-  listen(clientd,5);
+  listen(clientd, 10);
 
   //free the structs used by getaddrinfo
   free(hints);
   freeaddrinfo(results);
+
   return clientd;
 }
 
@@ -40,11 +41,10 @@ int server_setup() {
  */
 int server_tcp_handshake(int listen_socket){
     int client_socket;
-    struct sockaddr_storage their_addr;
-    socklen_t addr_size = sizeof(their_addr);
 
     //accept() the client connection
-    client_socket = accept(listen_socket, (struct sockaddr *)&their_addr, &addr_size);
+    client_socket = accept(listen_socket, NULL, NULL);
+
     return client_socket;
 }
 
@@ -56,15 +56,15 @@ int client_tcp_handshake(char * server_address) {
 
   //getaddrinfo
   struct addrinfo * hints, * results;
-  hints = calloc(1,sizeof(struct addrinfo));
+  hints = calloc(1, sizeof(struct addrinfo));
   hints->ai_family = AF_INET;
-  hints->ai_socktype = SOCK_STREAM; //TCP socket
-  hints->ai_flags = AI_PASSIVE; //only needed on server
-  getaddrinfo(server_address, PORT, hints, &results);
+  hints->ai_socktype = SOCK_STREAM;
+  getaddrinfo(NULL, "26237", hints, &results);
 
   int serverd;//store the socket descriptor here
   //create the socket
-  serverd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);
+  serverd = socket(results->ai_family, results->ai_socktype, results->ai_protocol);//store the socket descriptor here
+  err(serverd, "socket error");
 
   //connect() to the server
   connect(serverd, results->ai_addr, results->ai_addrlen);
@@ -75,20 +75,8 @@ int client_tcp_handshake(char * server_address) {
   return serverd;
 }
 
-void rotX(char *dest, const char *src, int x) {
-    int i = 0;
-    while (src[i] != '\0') {
-        char c = src[i];
-        if (c >= 'A' && c <= 'Z') {
-            c = ((c - 'A' + x) % 26) + 'A';
-        } else if (c >= 'a' && c <= 'z') {
-            c = ((c - 'a' + x) % 26) + 'a';
-        }
-        dest[i] = c;
-        i++;
-    }
-    dest[i] = '\0';
-}
+
+
 
 void err(int i, char*message){
   if(i < 0){
