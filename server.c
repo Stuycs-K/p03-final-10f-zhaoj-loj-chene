@@ -1,16 +1,16 @@
 #include "networking.h"
 
-void rot13(char*s){
-  int i = 0;
-  while(s[i] != '\0'){
-    char c = s[i];
-    if(c >= 'a' && c <= 'z'){
-      s[i] = 'a' + (c - 'a' + 13) % 26;
-    } else if (c >= 'A' && c <= 'Z'){
-      s[i] = 'A' + (c - 'A' + 13) % 26;
-    }
-    i++;
+int parse(char * line, char * delim, char ** arg_ary){
+  char * token = calloc(1, sizeof(line) + 1);
+  int size = 1;
+  token = strsep(&line, delim);
+  while (token != NULL){
+    arg_ary[size - 1] = token;
+    token = strsep(&line, delim);
+    size++;
   }
+  arg_ary[size - 1] = NULL;
+  return size;
 }
 
 void subserver_logic(int client_socket){
@@ -22,7 +22,7 @@ void subserver_logic(int client_socket){
 
 
   buffer[bytes] = '\0';
-  rot13(buffer);
+  parse(buffer___);
   printf("sending to client: %s\n", buffer);
   send(client_socket, buffer, strlen(buffer), 0);
 }
