@@ -15,11 +15,9 @@ Copy Server-Client socket connection from prev lab, works
 Analyzing downloaded mpg123 library
 Execvp does work but it only executes the file, it can't pause or have volume control or stuff
 Tried different ways to use the library
-  - Cannot sudo apt install on the lab computers so researching work around
-    - not successful lol, there is no mpg123 executable in the downloaded library
-  - Use as external program
-    - needs sudo apt install, will ask in class
-sudo apt-get install mpg123
+  - Use as external program is promising, deleting the mpg123 download
+sudo apt-get install mpg123 on personal computers
 
 ### 2024-01-09 - Brief description
-dpkg -s mpg123
+dpkg -s mpg123 to check version
+volume adjustments works through terminal commands
