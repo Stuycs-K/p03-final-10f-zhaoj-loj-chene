@@ -1,19 +1,50 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
 pid_t mpg123_pid = -1;
+char *mp3_file;
 
-void cleanup(int sig) {
+void stop_playback() {
     if (mpg123_pid > 0) {
         kill(mpg123_pid, SIGTERM);
         waitpid(mpg123_pid, NULL, 0);
+        mpg123_pid = -1;
     }
-    printf("\nPlayback stopped.\n");
+}
+
+void cleanup(int sig) {
+    stop_playback();
+    printf("\nexiting.\n");
     exit(0);
+}
+
+void play_with_volume(int percent) {
+    int scale = (int)(32768 * (percent / 100.0));
+
+    stop_playback();
+
+    mpg123_pid = fork();
+
+    if (mpg123_pid == 0) {
+        char scale_arg[16];
+        snprintf(scale_arg, sizeof(scale_arg), "%d", scale);
+
+        execlp(
+            "mpg123",
+            "mpg123",
+            "-f", scale_arg,
+            mp3_file,
+            NULL
+        );
+
+        perror("mpg123 failed");
+        exit(1);
+    }
 }
 
 int main(int argc, char *argv[]) {
@@ -22,24 +53,36 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    mp3_file = argv[1];
     signal(SIGINT, cleanup);
 
-    mpg123_pid = fork();
+    char input[128];
 
-    if (mpg123_pid == -1) {
-        perror("fork");
-        return 1;
+    printf("type: vol <number>  (example: vol 110)\n");
+    printf("ctrl+c to exit\n");
+
+    while (1) {
+        printf("> ");
+        fflush(stdout);
+
+        if (!fgets(input, sizeof(input), stdin))
+            break;
+
+        if (strncmp(input, "vol ", 4) == 0) {
+            int vol = atoi(input + 4);
+
+            if (vol <= 0) {
+                printf("invalid volume\n");
+                continue;
+            }
+
+            printf("replaying at %d%% volume\n", vol);
+            play_with_volume(vol);
+        } else {
+            printf("unknown command\n");
+        }
     }
 
-    if (mpg123_pid == 0) {
-        execlp("mpg123", "mpg123", argv[1], NULL);
-
-        perror("Failed to run mpg123 - make sure it's installed (sudo apt-get install mpg123)");
-        exit(1);
-    }
-    int status;
-    waitpid(mpg123_pid, &status, 0);
-
-    printf("Playback finished.\n");
+    cleanup(0);
     return 0;
 }

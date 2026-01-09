@@ -20,3 +20,6 @@ Tried different ways to use the library
   - Use as external program
     - needs sudo apt install, will ask in class
 sudo apt-get install mpg123
+
+### 2024-01-09 - Brief description
+dpkg -s mpg123
