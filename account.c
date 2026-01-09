@@ -13,22 +13,25 @@ int error(){
     exit(1);
 }
 
-int createuser(struct user u){
+int createuser(char* username, char* password){
   return 0;
 }
 
-int login(struct user u){ //return file descriptor, -1 if no such login
-  char path[100] = "users/";
-  strcat(path, u.username);
-  int f = open(path, O_RDONLY, 0);
+int login(char* username, char* password, struct user* u_ptr){ //returns 0 if user not found, 1 otherwise
+  int f = open("users.dat", O_RDONLY, 0);
   if (f < 0){
-    return -1;
-  }
-  int* s;
-  if (read(f, s, sizeof(int)) < 0){
     error();
   }
-  return f;
+  struct user buff;
+  while(read(f, &buff, sizeof(struct user)) == sizeof(struct user)){
+    if (!strcmp(buff.username, username) && !strcmp(buff.password, password)){
+      *u_ptr = buff;
+      close(f);
+      return 1;
+    }
+  }
+  close(f);
+  return 0;
 }
 
 int user_prompt(){
