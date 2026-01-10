@@ -1,10 +1,9 @@
-#include "account_h"
+#include "account.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <fctnl.h>
+#include <fcntl.h>
 #include <unistd.h>
-#include <string.h>
 #include <errno.h>
 
 int error(){
@@ -13,7 +12,8 @@ int error(){
     exit(1);
 }
 
-int createuser(char* username, char* password){ //returns 0 if username taken, 1 otherwise
+//returns 0 if username taken, 1 otherwise
+int createuser(char* username, char* password){
   int f = open("users.dat", O_RDWR, 0);
   if (f < 0){
     error();
@@ -36,7 +36,9 @@ int createuser(char* username, char* password){ //returns 0 if username taken, 1
   return 1;
 }
 
-int login(char* username, char* password, struct user* u_ptr){ //returns 0 if user not found, 1 otherwise
+//returns 0 if user not found, 1 otherwise
+//takes in a pointer and copies user data onto it
+int login(char* username, char* password, struct user* u_ptr){ 
   int f = open("users.dat", O_RDONLY, 0);
   if (f < 0){
     error();
@@ -53,7 +55,8 @@ int login(char* username, char* password, struct user* u_ptr){ //returns 0 if us
   return 0;
 }
 
-void user_prompt(struct user* u_ptr){ //takes in user struct pointer and copies user data onto the user struct
+//takes in user struct pointer and copies user data onto the user struct
+void user_prompt(struct user* u_ptr){
   char input[100]; 
   while(1){
     printf("create account or login? (type crt/lgn): ");
@@ -78,7 +81,6 @@ void user_prompt(struct user* u_ptr){ //takes in user struct pointer and copies 
           }
           printf("username taken\n");
         }
-        break;
       }
       else if (strcmp("lgn", input) == 0){
         while(1){
