@@ -20,7 +20,7 @@ int createuser(char* username, char* password){ //returns 0 if username taken, 1
   }
   struct user buff;
   while(read(f, &buff, sizeof(struct user)) == sizeof(struct user)){
-    if (!strcmp(buff.username, username)){
+    if (strcmp(buff.username, username) == 0){
       close(f);
       return 0;
     }
@@ -43,7 +43,7 @@ int login(char* username, char* password, struct user* u_ptr){ //returns 0 if us
   }
   struct user buff;
   while(read(f, &buff, sizeof(struct user)) == sizeof(struct user)){
-    if (!strcmp(buff.username, username) && !strcmp(buff.password, password)){
+    if (strcmp(buff.username, username) == 0 && strcmp(buff.password, password) == 0){
       *u_ptr = buff;
       close(f);
       return 1;
@@ -53,7 +53,60 @@ int login(char* username, char* password, struct user* u_ptr){ //returns 0 if us
   return 0;
 }
 
-int user_prompt(struct user* u_ptr){
-
-  return 0;
+void user_prompt(struct user* u_ptr){ //takes in user struct pointer and copies user data onto the user struct
+  char input[100]; 
+  while(1){
+    printf("create account or login? (type crt/lgn): ");
+    if (fgets(input, sizeof(input), stdin)){
+      input[strcspn(input, "\n")] = '\0'; //trim \n at end
+      if (strcmp("crt", input) == 0){
+        while(1){
+          char username[100];
+          char password[100];
+          printf("enter username: ");
+          if (!fgets(username, sizeof(username), stdin)){
+            error();
+          }
+          printf("enter password: ");
+          if (!fgets(password, sizeof(password), stdin)){
+            error();
+          }
+          username[strcspn(username, "\n")] = '\0';
+          password[strcspn(password, "\n")] = '\0';
+          if (createuser(username, password)){
+            break;
+          }
+          printf("username taken\n");
+        }
+        break;
+      }
+      else if (strcmp("lgn", input) == 0){
+        while(1){
+          char username[100];
+          char password[100];
+          printf("enter username: ");
+          if (!fgets(username, sizeof(username), stdin)){
+            error();
+          }
+          printf("enter password: ");
+          if (!fgets(password, sizeof(password), stdin)){
+            error();
+          }
+          username[strcspn(username, "\n")] = '\0';
+          password[strcspn(password, "\n")] = '\0';
+          if (login(username, password, u_ptr)){
+            break;
+          }
+          printf("wrong username or password\n");
+        }
+        break;
+      }
+      else{
+        printf("invalid input: enter \"crt\" or \"lgn\"\n");
+      }
+    }
+    else{
+      error();
+    }
+  }
 }
