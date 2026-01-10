@@ -4,8 +4,11 @@ This document must be updated daily every time you finish a work session.
 
 ## Jayden Lo
 
-### 2024-01-06 - readme
+### 2026-01-06 - readme
 Update readme. Group name not yet decided and exact instructions will be included once implemented.
 
-### 2024-01-08 - login
+### 2026-01-08 - login
 write h file for account features, and write login function. (1.5 hrs)
+
+### 2026-01-09 - login/create account prompt
+write and test functions for creating an account and prompting users to create or login using terminal input. (2 hrs)
