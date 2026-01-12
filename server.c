@@ -105,38 +105,39 @@ void subserver_logic(int client_socket){
     parse(command, " ", args);
 
     if(strcmp(args[0], "play") == 0){
-    if(args[1] == NULL){
-        printf("error: please include song to play\n");
-        fflush(stdout);
-    } else {
-        char path[256] = "./music/";
-        strcat(path, args[1]);
+      if(args[1] == NULL){
+          printf("error: please include song to play\n");
+          fflush(stdout);
+      } else {
+          char path[256] = "./music/";
+          strcat(path, args[1]);
+          printf("searching for song %s \n", path);
 
-        FILE *file = fopen(path, "rb");
-        if(!file){
-            printf("error: song not found\n");
-            fflush(stdout);
-            continue;
+          FILE *file = fopen(path, "rb");
+          if(!file){
+              printf("error: song not found\n");
+              fflush(stdout);
+              continue;
+          }
+
+          fseek(file, 0, SEEK_END);// get file size
+          long file_size = ftell(file);
+          rewind(file);
+
+          char header[300]; // send header: "FILE|size|filename\n"
+          sprintf(header, "FILE|%ld|%s\n", file_size, args[1]);
+          send(client_socket, header, strlen(header), 0);
+
+          char file_buffer[BUFFER_SIZE]; // Send file data
+          size_t bytes_read;
+          while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
+              send(client_socket, file_buffer, bytes_read, 0);
+          }
+          fclose(file);
+
+          printf("sent %s to client\n", args[1]);
+          fflush(stdout);
         }
-
-        fseek(file, 0, SEEK_END);// get file size
-        long file_size = ftell(file);
-        rewind(file);
-
-        char header[300]; // send header: "FILE|size|filename\n"
-        sprintf(header, "FILE|%ld|%s\n", file_size, args[1]);
-        send(client_socket, header, strlen(header), 0);
-
-        char file_buffer[BUFFER_SIZE]; // Send file data
-        size_t bytes_read;
-        while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
-            send(client_socket, file_buffer, bytes_read, 0);
-        }
-        fclose(file);
-
-        printf("sent %s to client\n", args[1]);
-        fflush(stdout);
-      }
     } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
       break;
     } else {  // if it doesnt say play
