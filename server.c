@@ -1,4 +1,5 @@
 #include "networking.h"
+#include "account.h"
 
 int parse(char * line, char * delim, char ** arg_ary){
   char * token = calloc(1, sizeof(line) + 1);
@@ -15,16 +16,31 @@ int parse(char * line, char * delim, char ** arg_ary){
 
 void subserver_logic(int client_socket){
   char buffer[BUFFER_SIZE];
+  char *args[10];
+  struct user current_user;
+  int signed_in = 0;
 
-  int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
-  err(bytes, "server receive error\n");
-  printf("received from client: %s\n", buffer);
+  while(!signed_in){
+    int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
+    err(bytes, "can't connect to client\n");
+    buffer[bytes] = '\0';
 
+    //login
+    char command[BUFFER_SIZE];
+    strcpy(command, buffer);
+    parse(command, " ", args);
 
-  buffer[bytes] = '\0';
-  parse(buffer___);
-  printf("sending to client: %s\n", buffer);
-  send(client_socket, buffer, strlen(buffer), 0);
+    if(strcmp(args[0], "crt") == 0){
+      if(createuser(args[1], args[2])){
+        send(client_socket, "account created. please log in", 50, 0); \\uses magic num maybe change later
+      } else {
+        send(client_socket, "account cannot be created. username taken", 50, 0); \\uses magic num maybe change later
+      }
+    }
+
+    printf("sending to client: %s\n", buffer);
+
+  }
 }
 
 int main(int argc, char *argv[] ) {
