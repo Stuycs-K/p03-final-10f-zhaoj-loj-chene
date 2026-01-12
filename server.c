@@ -85,12 +85,10 @@ void subserver_logic(int client_socket){
   dup2(client_socket, STDIN_FILENO);
   dup2(client_socket, STDOUT_FILENO);
 
-  //login
-  struct user current_user;
+  struct user current_user; //login
   user_auth_prompt(&current_user);
 
-  //music player
-  printf("welcome %s! type 'play <song.mp3>' or 'exit'.\n", current_user.username);
+  printf("welcome %s! type 'play <song.mp3>' or 'exit'.\n", current_user.username); //music player
   fflush(stdout);
 
   char buffer[BUFFER_SIZE];
@@ -107,31 +105,41 @@ void subserver_logic(int client_socket){
     parse(command, " ", args);
 
     if(strcmp(args[0], "play") == 0){
-      if(args[1] == NULL){
-        send(client_socket, "error: please include song to play", 50, 0);
+    if(args[1] == NULL){
+        printf("error: please include song to play\n");
         fflush(stdout);
-      } else {
+    } else {
         char path[256] = "./music/";
         strcat(path, args[1]);
 
-        printf("playing %s...\n", args[1]);
-        fflush(stdout);
-
-        int f = fork();
-        if(f == 0){
-          char *args[] = {"mpg123", path, NULL};
-          execvp(args[0], args);
-          exit(1);
-        } else {
-          int status;
-          waitpid(f, &status, 0);
-          printf("done playing.");
-          fflush(stdout);
+        FILE *file = fopen(path, "rb");
+        if(!file){
+            printf("error: song not found\n");
+            fflush(stdout);
+            continue;
         }
+
+        fseek(file, 0, SEEK_END);// get file size
+        long file_size = ftell(file);
+        rewind(file);
+
+        char header[300]; // send header: "FILE|size|filename\n"
+        sprintf(header, "FILE|%ld|%s\n", file_size, args[1]);
+        send(client_socket, header, strlen(header), 0);
+
+        char file_buffer[BUFFER_SIZE]; // Send file data
+        size_t bytes_read;
+        while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
+            send(client_socket, file_buffer, bytes_read, 0);
+        }
+        fclose(file);
+
+        printf("sent %s to client\n", args[1]);
+        fflush(stdout);
       }
-    } else if (strcmp(args[0], "exit") == 0){
+    } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
       break;
-    } else {
+    } else {  // if it doesnt say play
       printf("invalid command.");
       fflush(stdout);
     }
