@@ -23,3 +23,8 @@ Pushed project proposal into repo
 - updated server to check user authentication (reordered user prompting function originally in account.c to server.c) + subserver logic to check user input (play and exit) to play music with mpg123 (2 hr)
 - fixed client logic to just connect to server (doesn't send any messages) (30 min)
 - tested and fixed infinite loop error that occurred after logging in (30 min)
+
+### 2026-01-12 - testing player
+- testing new server logic: old version played on server but now creates temp mp3 file for client (20 min)
+- update makefile to remove temp file each time (5 min)
+- remove debug print statements (bytes copied, etc.) (5 min)
