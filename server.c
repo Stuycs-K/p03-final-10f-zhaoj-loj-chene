@@ -98,16 +98,10 @@ void subserver_logic(int client_socket){
   char *args[10];
 
   while(1){
-    int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
-    err(bytes, "can't connect to client\n");
-    buffer[bytes] = '\0';
-
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == '\n') {
       buffer[len - 1] = '\0';
     }
-
-    printf("user %s requested: %s\n", current_user.username, buffer);
 
     strcpy(command, buffer);
     parse(command, " ", args);
@@ -115,9 +109,14 @@ void subserver_logic(int client_socket){
     if(strcmp(args[0], "play") == 0){
       if(args[1] == NULL){
         send(client_socket, "error: please include song to play", 50, 0);
+        fflush(stdout);
       } else {
         char path[256] = "./music/";
-        strcat(path, args[1]);
+        strcat(path, args[1], sizeof(path) - strlen(path) - 1);
+
+        printf("playing %s...\n", args[1]);
+        fflush(stdout);
+
         int f = fork();
         if(f == 0){
           execvp("mpg123", path, NULL);
@@ -125,13 +124,15 @@ void subserver_logic(int client_socket){
         } else {
           int status;
           waitpid(f, &status, 0);
-          send(client_socket, "done playing.", 50, 0);
+          printf("done playing.");
+          fflush(stdout);
         }
       }
     } else if (strcmp(args[0], "exit") == 0){
       break;
     } else {
-      send(client_socket, "invalid command.", 50, 0);
+      printf("invalid command.");
+      fflush(stdout);
     }
   }
 }
