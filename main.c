@@ -4,6 +4,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <errno.h>
+#include "account.h"
 
 int err(){
     printf("errno %d\n",errno);
@@ -20,6 +21,10 @@ int test(){
   return 0;
 }
 
-void main(){
-  test();
+int main(){
+  //test();
+  struct user u;
+  user_prompt(&u);
+  printf("username: %s, password: %s\n", u.username, u.password);
+  return 0;
 }
