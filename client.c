@@ -31,6 +31,7 @@ int main(int argc, char *argv[] ) {
 
         while(received < file_size){
             bytes = recv(server_socket, buffer, BUFFER_SIZE, 0);
+            printf("%ld byte copied \n", received);
             if(bytes <= 0) break;
             fwrite(buffer, 1, bytes, temp);
             received += bytes;

@@ -24,10 +24,10 @@ volume adjustments works through terminal commands (2 hrs, including frees)
 
 ### 2024-01-11 - merging main to jason, compiling, other fixes
 merged everything from main to jason, compile works and so does test file (1 hr)
-before, the server's child tried to play the music, fixed so that the child receives the mp3 file and saves as temp to then play on the clients side (1.5 hr)
-- comments included on what each part does
-
 notes from my idea of music player continuing:
 - maybe have clients download only client and like networking and the necessary stuff, just not server and music stuff so that server can just send the mp3 data to client to run
   - could probably work by having client connect to  server ip
 - this way server jsut manages the library and client does the mpg123 stuff
+before, the server's child tried to play the music, fixed so that the child receives the mp3 file and saves as temp to then play on the clients side (1.5 hr)
+- comments included on what each part does
+- 

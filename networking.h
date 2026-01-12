@@ -16,7 +16,7 @@
 #ifndef NETWORKING_H
 #define NETWORKING_H
 #define PORT "12708"
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE 2048
 void err(int i, char*message);
 int server_setup();
 int client_tcp_handshake(char*server_address);
