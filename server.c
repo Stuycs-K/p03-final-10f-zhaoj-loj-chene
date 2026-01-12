@@ -112,7 +112,7 @@ void subserver_logic(int client_socket){
         fflush(stdout);
       } else {
         char path[256] = "./music/";
-        strcat(path, args[1], sizeof(path) - strlen(path) - 1);
+        strcat(path, args[1]);
 
         printf("playing %s...\n", args[1]);
         fflush(stdout);
