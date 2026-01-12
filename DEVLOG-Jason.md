@@ -30,4 +30,5 @@ notes from my idea of music player continuing:
 - this way server jsut manages the library and client does the mpg123 stuff
 before, the server's child tried to play the music, fixed so that the child receives the mp3 file and saves as temp to then play on the clients side (1.5 hr)
 - comments included on what each part does
-- 
+server now sends mp3 file to client and client copies onto a temp.mp3 on its own folder (1.5 hr)
+now use that to combine with mpg123 with volume adjusting, pausing, etc
