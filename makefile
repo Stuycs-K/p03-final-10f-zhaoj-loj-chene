@@ -21,5 +21,5 @@ account.o: account.c account.h
 	@gcc -Wall -c account.c
 
 clean:
-	@rm -f *.o client server
+	@rm -f *.o client server user.dat
 	@rm -f *~

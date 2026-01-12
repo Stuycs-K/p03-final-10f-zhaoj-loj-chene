@@ -97,7 +97,7 @@ void subserver_logic(int client_socket){
   char command[BUFFER_SIZE];
   char *args[10];
 
-  while(1){
+  while(fgets(buffer, BUFFER_SIZE, stdin) != NULL){
     size_t len = strlen(buffer);
     if (len > 0 && buffer[len - 1] == '\n') {
       buffer[len - 1] = '\0';

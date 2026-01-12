@@ -14,7 +14,7 @@ int error(){
 
 //returns 0 if username taken, 1 otherwise
 int createuser(char* username, char* password){
-  int f = open("users.dat", O_RDWR, 0);
+  int f = open("users.dat", O_RDWR | O_CREAT, 0666);
   if (f < 0){
     error();
   }
@@ -29,6 +29,8 @@ int createuser(char* username, char* password){
   memset(&new_acc, 0, sizeof(struct user));
   strcpy(new_acc.username, username);
   strcpy(new_acc.password, password);
+
+  lseek(f, 0, SEEK_END);
   if (write(f, &new_acc, sizeof(struct user)) < 0){
     error();
   }
