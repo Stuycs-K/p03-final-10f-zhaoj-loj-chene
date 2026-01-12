@@ -1,5 +1,17 @@
 #include "networking.h"
 
+//reading user input
+void read_input(char* buffer, int size) {
+  if (fgets(buffer, size, stdin) == NULL) {
+    exit(0);
+  }
+
+  int len = strlen(buffer);
+  if (len > 0 && buffer[len - 1] == '\n') {
+    buffer[len - 1] = '\0';
+  }
+}
+
 void clientLogic(int server_socket){
   char buffer[BUFFER_SIZE];
 
