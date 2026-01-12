@@ -99,7 +99,6 @@ int main(int argc, char *argv[] ) {
     if(f == 0){
       close(listen_socket);
       subserver_logic(client_socket);
-      fflush(stdout);
       close(client_socket);
       exit(0);
     }
