@@ -24,5 +24,5 @@ account.o: account.c account.h
 	@gcc -Wall -c account.c
 
 clean:
-	@rm -f *.o client server users.dat
+	@rm -f *.o client server users.dat temp.mp3
 	@rm -f *~
