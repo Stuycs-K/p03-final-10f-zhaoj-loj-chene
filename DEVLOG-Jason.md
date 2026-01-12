@@ -22,7 +22,7 @@ sudo apt-get install mpg123 on personal computers
 dpkg -s mpg123 to check version
 volume adjustments works through terminal commands (2 hrs, including frees)
 
-### 2024-01-11 - merging main to jason, compiling, other fixes
+### 2024-01-11 - merging main to jason, compiling, other fixes, revamp the mp3 client server system
 merged everything from main to jason, compile works and so does test file (1 hr)
 notes from my idea of music player continuing:
 - maybe have clients download only client and like networking and the necessary stuff, just not server and music stuff so that server can just send the mp3 data to client to run
