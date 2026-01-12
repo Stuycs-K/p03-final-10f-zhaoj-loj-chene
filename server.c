@@ -18,7 +18,7 @@ void subserver_logic(int client_socket){
   char buffer[BUFFER_SIZE];
   char *args[10];
   struct user current_user;
-  int signed_in = 0;
+  int logged_in = 0;
 
   while(!signed_in){
     int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
@@ -35,6 +35,14 @@ void subserver_logic(int client_socket){
         send(client_socket, "account created. please log in", 50, 0); \\uses magic num maybe change later
       } else {
         send(client_socket, "account cannot be created. username taken", 50, 0); \\uses magic num maybe change later
+      }
+    } else if (strcmp(args[0], "lgn") == 0){
+      if(login(args[1], args[2], &current_user)){
+        send(client_socket, "logged in", 50, 0);
+        logged_in = 1;
+        printf("user %s logged in.\n", current_user.username);
+      } else{
+        send(client_socket, "invalid login.", 50, 0);
       }
     }
 
