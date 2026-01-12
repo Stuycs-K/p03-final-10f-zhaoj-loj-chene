@@ -49,11 +49,20 @@ void play_with_volume(int percent) {
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
-        printf("Usage: %s <mp3_file>\n", argv[0]);
+        printf("Usage: %s mp3_file\n", argv[0]);
         return 1;
     }
 
     mp3_file = argv[1];
+    char path[256] = "./music/";
+    strcat(path, mp3_file);
+    printf("trying to open %s \n", path);
+    FILE *file = fopen(path, "rb");
+    if(!file){
+      printf("error: song not found\n");
+      fflush(stdout);
+    }
+
     signal(SIGINT, cleanup);
 
     char input[128];

@@ -30,5 +30,5 @@ audiocontrol: audiocontrol.o
 	@gcc -o audiocontrol audiocontrol.o
 
 clean:
-	@rm -f *.o client server users.dat
+	@rm -f *.o client server audiocontrol users.dat
 	@rm -f *~
