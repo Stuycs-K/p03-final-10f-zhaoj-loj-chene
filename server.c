@@ -110,7 +110,17 @@ void subserver_logic(int client_socket){
           fflush(stdout);
       } else {
           char path[256] = "./music/";
-          strcat(path, args[1]);
+          char musicname[256];
+          strcpy(musicname, args[1]);
+          int namelen = strlen(musicname);
+          if (musicname[0] == '<') {
+            memmove(musicname, musicname + 1, namelen);
+            namelen--;
+          }
+          if (namelen > 0 && musicname[namelen - 1] == '>') {
+            musicname[namelen - 1] = '\0';
+          }
+          strcat(path, musicname);
           printf("searching for song %s \n", path);
 
           FILE *file = fopen(path, "rb");
