@@ -5,9 +5,18 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
+#include <errno.h>
+#include "account.h"
 
 pid_t mpg123_pid = -1;
 char *mp3_file;
+
+int err(){
+    printf("errno %d\n",errno);
+    printf("%s\n",strerror(errno));
+    return 0;
+}
 
 void stop_playback() {
     if (mpg123_pid > 0) {
@@ -84,5 +93,17 @@ int main(int argc, char *argv[]) {
     }
 
     cleanup(0);
+
+    test();
+
     return 0;
+}
+
+int test(){
+  char path[256] = "piano.mp3";
+  char *args[] = {"mpg123", path, NULL};
+  if (execvp(args[0], args) < 0){
+    err();
+  }
+  return 0;
 }

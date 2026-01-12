@@ -15,7 +15,7 @@
 
 #ifndef NETWORKING_H
 #define NETWORKING_H
-#define PORT "19230"
+#define PORT "12708"
 #define BUFFER_SIZE 1024
 void err(int i, char*message);
 int server_setup();
