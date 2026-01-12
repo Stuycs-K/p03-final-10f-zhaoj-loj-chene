@@ -23,6 +23,12 @@ networking.o: networking.c networking.h
 account.o: account.c account.h
 	@gcc -Wall -c account.c
 
+audiocontrol.o: audiocontrol.c audiocontrol.h
+	@gcc -Wall -c audiocontrol.c
+
+audiocontrol: audiocontrol.o
+	@gcc -o audiocontrol audiocontrol.o
+
 clean:
 	@rm -f *.o client server users.dat
 	@rm -f *~

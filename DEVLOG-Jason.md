@@ -32,3 +32,5 @@ before, the server's child tried to play the music, fixed so that the child rece
 - comments included on what each part does
 server now sends mp3 file to client and client copies onto a temp.mp3 on its own folder (1.5 hr)
 now use that to combine with mpg123 with volume adjusting, pausing, etc
+
+### 2024-01-12 - audio control, pause, volume, playlists?
