@@ -19,6 +19,8 @@ void user_auth_prompt(struct user* u_ptr){
   char input[100];
   while(1){
     printf("create account or login? (type crt/lgn): ");
+    fflush(stdout);
+
     if (fgets(input, sizeof(input), stdin)){
       input[strcspn(input, "\n")] = '\0'; //trim \n at end
       if (strcmp("crt", input) == 0){
@@ -26,10 +28,12 @@ void user_auth_prompt(struct user* u_ptr){
           char username[100];
           char password[100];
           printf("enter username: ");
+          fflush(stdout);
           if (!fgets(username, sizeof(username), stdin)){
             error();
           }
           printf("enter password: ");
+          fflush(stdout);
           if (!fgets(password, sizeof(password), stdin)){
             error();
           }
@@ -39,6 +43,7 @@ void user_auth_prompt(struct user* u_ptr){
             break;
           }
           printf("username taken\n");
+          fflush(stdout);
         }
       }
       else if (strcmp("lgn", input) == 0){
@@ -46,10 +51,12 @@ void user_auth_prompt(struct user* u_ptr){
           char username[100];
           char password[100];
           printf("enter username: ");
+          fflush(stdout);
           if (!fgets(username, sizeof(username), stdin)){
             error();
           }
           printf("enter password: ");
+          fflush(stdout);
           if (!fgets(password, sizeof(password), stdin)){
             error();
           }
@@ -59,11 +66,13 @@ void user_auth_prompt(struct user* u_ptr){
             break;
           }
           printf("wrong username or password\n");
+          fflush(stdout);
         }
         break;
       }
       else{
         printf("invalid input: enter \"crt\" or \"lgn\"\n");
+        fflush(stdout);
       }
     }
     else{
@@ -73,43 +82,22 @@ void user_auth_prompt(struct user* u_ptr){
 }
 
 void subserver_logic(int client_socket){
+  dup2(client_socket, STDIN_FILENO);
+  dup2(client_socket, STDOUT_FILENO);
+
+  //login
+  struct user current_user;
+  user_auth_prompt(&current_user);
+
+  //music player
+  printf("welcome %s! type 'play <song.mp3>' or 'exit'.\n", current_user.username);
+  fflush(stdout);
+
   char buffer[BUFFER_SIZE];
   char command[BUFFER_SIZE];
   char *args[10];
-  struct user current_user;
-  user_auth_prompt(&current_user);
-  int logged_in = 0;
 
-  while(!logged_in){
-    int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
-    err(bytes, "can't connect to client\n");
-    buffer[bytes] = '\0';
-
-    //login
-    strcpy(command, buffer);
-    parse(command, " ", args);
-
-    if(strcmp(args[0], "crt") == 0){
-      if(createuser(args[1], args[2])){
-        send(client_socket, "account created. please log in", 50, 0); \\uses magic num maybe change later
-      } else {
-        send(client_socket, "account cannot be created. username taken", 50, 0); \\uses magic num maybe change later
-      }
-    } else if (strcmp(args[0], "lgn") == 0){
-      if(login(args[1], args[2], &current_user)){
-        send(client_socket, "logged in", 50, 0);
-        logged_in = 1;
-        printf("user %s logged in.\n", current_user.username);
-      } else{
-        send(client_socket, "invalid login.", 50, 0);
-      }
-    } else {
-      send(client_socket, "invalid authentication command", 50, 0);
-    }
-  }
-
-  //music player
-  while(logged_in){
+  while(1){
     int bytes = recv(client_socket, buffer, BUFFER_SIZE - 1, 0);
     err(bytes, "can't connect to client\n");
     buffer[bytes] = '\0';
