@@ -81,6 +81,10 @@ void subserver_logic(int client_socket){
           send(client_socket, "done playing.", 50, 0);
         }
       }
+    } else if (strcmp(args[0], "exit") == 0){
+      break;
+    } else {
+      send(client_socket, "invalid command.", 50, 0);
     }
   }
 }
