@@ -119,7 +119,10 @@ void subserver_logic(int client_socket){
 
         int f = fork();
         if(f == 0){
-          execvp("mpg123", path, NULL);
+          char *args[] = {"mpg123", path, NULL};
+          if (execvp(args[0], args) < 0){
+            err();
+          }
           exit(1);
         } else {
           int status;
