@@ -22,12 +22,22 @@ int main(int argc, char *argv[] ) {
       if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
         long file_size;
         char filename[100];
-        sscanf(buffer, "FILE|%ld|%s", &file_size, filename);
+        
+        char *header_end = strchr(buffer, '\n');
+        if(!header_end) continue;
 
+        sscanf(buffer, "FILE|%ld|%s", &file_size, filename);
         printf("receiving %s (%ld bytes)...\n", filename, file_size);
 
         FILE *temp = fopen("temp.mp3", "wb"); // receive file data
         long received = 0;
+
+        int header_len = (header_end - buffer) + 1; // +1 for the '\n'
+        int extra_bytes = bytes - header_len;
+        if(extra_bytes > 0){
+            fwrite(header_end + 1, 1, extra_bytes, temp);
+            received += extra_bytes;
+        }
 
         while(received < file_size){
             bytes = recv(server_socket, buffer, BUFFER_SIZE, 0);
