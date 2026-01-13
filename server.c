@@ -144,9 +144,6 @@ void subserver_logic(int client_socket){
               send(client_socket, file_buffer, bytes_read, 0);
           }
           fclose(file);
-
-          printf("sent %s to client\n", args[1]);
-          fflush(stdout);
         }
     } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
       break;
