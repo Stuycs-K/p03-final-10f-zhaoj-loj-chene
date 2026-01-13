@@ -147,7 +147,8 @@ void subserver_logic(int client_socket){
           }
           fclose(file);
         }
-    } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
+    } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
+      send(client_socket, "exit", 50, 0);
       break;
     } else {  // if it doesnt say play
       printf("invalid command.");
