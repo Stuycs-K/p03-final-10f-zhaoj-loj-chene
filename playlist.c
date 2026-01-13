@@ -19,8 +19,22 @@ int add_song(struct playlist* p, char* name){
   return 0;
 }
 
+//takes a playlist pointer and a song name
+//removes the song from playlist and shifts to remove gap
+//returns 0 if song isn't in playlist, 1 otherwise
 int remove_song(struct playlist* p, char* name){
-
+  int i = 0;
+  while(!strcmp(name, p->songs[i])){
+    i++;
+  }
+  if (i == 50){ //song not found
+    return 0;
+  }
+  for(int k = i; k < 50 - 1; k++){ //shift songs to clear gap
+    strcpy(p->songs[i], p->songs[i + 1]);
+  }
+  p->songs[49][0] = '\0';
+  return 0;
 }
 
 int change_name(struct playlist* p, char* name){
