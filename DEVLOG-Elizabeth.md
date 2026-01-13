@@ -28,3 +28,9 @@ Pushed project proposal into repo
 - testing new server logic: old version played on server but now creates temp mp3 file for client (20 min)
 - update makefile to remove temp file each time (5 min)
 - remove debug print statements (bytes copied, etc.) (5 min)
+
+### 2026-01-13 - exit command + account creation verification
+- output for successful account creation (5 min)
+- debug naming typos and type warnings (5 min)
+- fix exit command to send to redirect to client and exit client (15 min)
+- test (10 min)
