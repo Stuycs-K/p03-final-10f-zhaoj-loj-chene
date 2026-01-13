@@ -40,6 +40,8 @@ void user_auth_prompt(struct user* u_ptr){
           username[strcspn(username, "\n")] = '\0';
           password[strcspn(password, "\n")] = '\0';
           if (createuser(username, password)){
+            printf("user created successfully. please log in.\n");
+            fflush(stdout);
             break;
           }
           printf("username taken\n");

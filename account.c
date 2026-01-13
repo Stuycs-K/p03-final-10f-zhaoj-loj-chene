@@ -58,7 +58,7 @@ int login(char* username, char* password, struct user* u_ptr){
 }
 
 //takes in a filename and a playlist pointer
-//writes the playlist to the file in a format suitable for mpg123 
+//writes the playlist to the file in a format suitable for mpg123
 //creates file if it doesn't exist and replaces it if it does
 void write_playlist(char* filename, struct playlist* p){
   int f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -68,7 +68,7 @@ void write_playlist(char* filename, struct playlist* p){
   if (write(f, p->name, strlen(p->name)) < 0){
     error();
   }
-  write(fd, '\n', 1); //newline for mpg123 playlist format
+  write(f, '\n', 1); //newline for mpg123 playlist format
 
   for(int i = 0; i < 50; i++){
     if (p->songs[i][0] == '\0'){ //break loop if song is null
@@ -89,7 +89,7 @@ void read_playlist(char* filename, struct playlist* p){
   }
   char line[100];
   int index = 0;
-  memset(p, 0, sizeof(struct playlist)); //assuming memory of playlist was not necessarily allocated 
+  memset(p, 0, sizeof(struct playlist)); //assuming memory of playlist was not necessarily allocated
   if (!fgets(line, sizeof(line), fp)) { //read playlist name
     error();
   }
@@ -98,8 +98,8 @@ void read_playlist(char* filename, struct playlist* p){
 
   while (fgets(line, sizeof(line), fp) && index < 50){
       line[strcspn(line, "\n")] = '\0';
-      strcpy(p->songs[song_index], line);
-      song_index++;
+      strcpy(p->songs[index], line);
+      index++;
   }
   fclose(fp);
 }
