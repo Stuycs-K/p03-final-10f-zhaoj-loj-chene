@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-int error(){
+void error(){
     printf("errno %d\n",errno);
     printf("%s\n",strerror(errno));
     exit(1);
@@ -69,9 +69,9 @@ void write_playlist(char* filename, struct playlist* p){
     error();
   }
   write(fd, '\n', 1); //newline for mpg123 playlist format
+
   for(int i = 0; i < 50; i++){
-    //break loop if song is null
-    if (p->songs[i][0] == '\0'){
+    if (p->songs[i][0] == '\0'){ //break loop if song is null
       break;
     }
     if (write(f, p->songs[i], strlen(p->songs[i])) < 0){
@@ -82,3 +82,24 @@ void write_playlist(char* filename, struct playlist* p){
   close(f);
 }
 
+void read_playlist(char* filename, struct playlist* p){
+  FILE* fp = fopen(filename, "r");
+  if (!fp){
+    error();
+  }
+  char line[100];
+  int index = 0;
+  memset(p, 0, sizeof(struct playlist)); //assuming memory of playlist was not necessarily allocated 
+  if (!fgets(line, sizeof(line), fp)) { //read playlist name
+    error();
+  }
+  line[strcspn(line, "\n")] = '\0'; //trim newline at end
+  strcpy(p->name, line);
+
+  while (fgets(line, sizeof(line), fp) && index < 50){
+      line[strcspn(line, "\n")] = '\0';
+      strcpy(p->songs[song_index], line);
+      song_index++;
+  }
+  fclose(fp);
+}
