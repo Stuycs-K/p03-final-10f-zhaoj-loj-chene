@@ -1,0 +1,30 @@
+-= terminal control keys =-
+[s] or [ ]	interrupt/restart playback (i.e. '(un)pause')
+[f]	next track
+[d]	previous track
+[]]	next directory (next track until directory part changes)
+[[]	previous directory (previous track until directory part changes)
+[b]	back to beginning of track
+[p]	loop around current position (don't combine with output buffer)
+[.]	forward
+[,]	rewind
+[:]	fast forward
+[;]	fast rewind
+[>]	fine forward
+[<]	fine rewind
+[+]	volume up
+[-]	volume down
+[u]	(un)mute volume
+[r]	RVA switch
+[v]	verbose switch
+[l]	list current playlist, indicating current track there
+[t]	display tag info (again)
+[m]	print MPEG header info (again)
+[c] or [C]	pitch up (small step, big step)
+[x] or [X]	pitch down (small step, big step)
+[w]	reset pitch to zero
+[k]	print out current position in playlist and track, for the benefit of some external tool to store bookmarks
+[h]	this help
+[q]	quit
+
+Also, the number row (starting at 1, ending at 0) gives you jump points into the current track at 10% intervals.
