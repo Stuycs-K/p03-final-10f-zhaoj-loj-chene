@@ -22,7 +22,7 @@ int main(int argc, char *argv[] ) {
       if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
         long file_size;
         char filename[100];
-        
+
         char *header_end = strchr(buffer, '\n');
         if(!header_end) continue;
 

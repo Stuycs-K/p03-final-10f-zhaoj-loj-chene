@@ -34,3 +34,6 @@ server now sends mp3 file to client and client copies onto a temp.mp3 on its own
 now use that to combine with mpg123 with volume adjusting, pausing, etc
 
 ### 2024-01-12 - audio control, pause, volume, playlists?
+can all be done just through mpg123 player so 1 hr of my life wasted
+
+### 2024-01-12 - better volume control
