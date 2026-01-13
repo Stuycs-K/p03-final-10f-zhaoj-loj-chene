@@ -68,7 +68,7 @@ void write_playlist(char* filename, struct playlist* p){
   if (write(f, p->name, strlen(p->name)) < 0){
     error();
   }
-  write(f, '\n', 1); //newline for mpg123 playlist format
+  write(f, "\n", 1); //newline for mpg123 playlist format
 
   for(int i = 0; i < 50; i++){
     if (p->songs[i][0] == '\0'){ //break loop if song is null
@@ -77,7 +77,7 @@ void write_playlist(char* filename, struct playlist* p){
     if (write(f, p->songs[i], strlen(p->songs[i])) < 0){
       error();
     }
-    write(f, '\n', 1);
+    write(f, "\n", 1);
   }
   close(f);
 }
