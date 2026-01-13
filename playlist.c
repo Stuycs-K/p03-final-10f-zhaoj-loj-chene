@@ -6,8 +6,17 @@
 #include <unistd.h>
 #include <errno.h>
 
+//takes a playlist pointer and a song name
+//appends the song name to the playlist
+//returns 0 if playlist is full, 1 otherwise
 int add_song(struct playlist* p, char* name){
-  
+  for(int i = 0; i < 50, i++){
+    if(p->songs[i][0] == '\0'){
+      strcpy(p->songs[i], name);
+      return 1;
+    }
+  }
+  return 0;
 }
 
 int remove_song(struct playlist* p, char* name){
