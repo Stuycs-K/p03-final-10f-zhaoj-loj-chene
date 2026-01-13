@@ -37,10 +37,6 @@ int remove_song(struct playlist* p, char* name){
   return 0;
 }
 
-int change_name(struct playlist* p, char* name){
-
-}
-
 //takes in a filename and a playlist pointer
 //writes the playlist to the file in a format suitable for mpg123
 //creates file if it doesn't exist and replaces it if it does
