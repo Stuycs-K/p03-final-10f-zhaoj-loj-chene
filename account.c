@@ -57,6 +57,9 @@ int login(char* username, char* password, struct user* u_ptr){
   return 0;
 }
 
+//takes in a filename and a playlist pointer
+//writes the playlist to the file in a format suitable for mpg123 
+//creates file if it doesn't exist and replaces it if it does
 void write_playlist(char* filename, struct playlist* p){
   int f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
   if (f < 0){
@@ -78,3 +81,4 @@ void write_playlist(char* filename, struct playlist* p){
   }
   close(f);
 }
+
