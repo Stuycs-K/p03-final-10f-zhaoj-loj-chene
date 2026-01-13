@@ -82,6 +82,8 @@ void write_playlist(char* filename, struct playlist* p){
   close(f);
 }
 
+//takes in a filename and a playlist pointer
+//writes the file to the playlist (assuming valid format)
 void read_playlist(char* filename, struct playlist* p){
   FILE* fp = fopen(filename, "r");
   if (!fp){
