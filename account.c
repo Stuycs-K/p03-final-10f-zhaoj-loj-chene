@@ -56,3 +56,25 @@ int login(char* username, char* password, struct user* u_ptr){
   close(f);
   return 0;
 }
+
+void write_playlist(char* filename, struct playlist* p){
+  int f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  if (f < 0){
+    error();
+  }
+  if (write(f, p->name, strlen(p->name)) < 0){
+    error();
+  }
+  write(fd, '\n', 1); //newline for mpg123 playlist format
+  for(int i = 0; i < 50; i++){
+    //break loop if song is null
+    if (p->songs[i][0] == '\0'){
+      break;
+    }
+    if (write(f, p->songs[i], strlen(p->songs[i])) < 0){
+      error();
+    }
+    write(f, '\n', 1);
+  }
+  close(f);
+}
