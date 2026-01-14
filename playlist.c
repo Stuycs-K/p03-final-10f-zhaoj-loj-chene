@@ -58,6 +58,43 @@ void view_playlist(struct playlist* p){
   }
 }
 
+// lists all the user's playlists
+void list_playlists(struct user* u){
+  for(int i = 0; i < 5; i++){
+    if(user->user_playlist[i].name[0] != '\0'){
+      printf("%s\n", user->user_playlist[i].name);
+    } else {
+      break;
+    }
+  }
+}
+
+// sets playlist name to first empty place in playlist array
+void make_playlist(struct user* u, char* name){
+  for(int i = 0; i < 5; i++){
+    if(user->user_playlist[i].name[0] == '\0'){
+      strcpy(user->user_playlist[i].name, name);
+      printf("%s successfully created. you now have %d out of 5 playlists\n", name, i);
+      break;
+    } else {
+      printf("No slots available. Please delete a playlist.\n");
+    }
+  }
+}
+
+// deletes playlists
+void delete_playlist(struct user* u, char* name){
+  for(int i = 0; i < 5; i++){
+    if(strcmp(user->user_playlist[i].name, name) == 0){
+      user->user_playlist[i].name = NULL; //might have to clear the songs in that playlist
+      printf("%s successfully deleted.\n", name);
+      break;
+    } else {
+      printf("%s does not exist.\n", name);
+    }
+  }
+}
+
 //takes in a filename and a playlist pointer
 //writes the playlist to the file in a format suitable for mpg123
 //creates file if it doesn't exist and replaces it if it does
