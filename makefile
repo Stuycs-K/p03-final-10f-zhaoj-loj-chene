@@ -6,7 +6,7 @@ default :
 compile: client server
 
 client: client.o networking.o audiocontrol.o
-	@gcc -o client client.o networking.o
+	@gcc -o client client.o networking.o audiocontrol.o
 
 server: server.o networking.o account.o
 	@gcc -o server server.o networking.o account.o
