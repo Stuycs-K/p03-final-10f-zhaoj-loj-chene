@@ -58,6 +58,19 @@ void view_playlist(struct playlist* p){
   }
 }
 
+// lists all the user's playlists
+void list_playlists(struct user* u){
+  for(int i = 0; i < 5; i++){
+    if(user->user_playlist[i].name[0] != '\0'){
+      printf("%s\n", user->user_playlist[i].name);
+    } else {
+      break;
+    }
+  }
+}
+
+//
+
 //takes in a filename and a playlist pointer
 //writes the playlist to the file in a format suitable for mpg123
 //creates file if it doesn't exist and replaces it if it does
