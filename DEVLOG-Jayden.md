@@ -15,3 +15,7 @@ write and test functions for creating an account and prompting users to create o
 
 ### 2026-01-12 - playlist read/write
 write functions to write to and read from a playlist file based on a playlist struct. (1.5 hrs)
+
+### 2026-01-13 - playlist edit functions
+write functions to edit and interact with playlists, ex. add, remove. (1.5 hrs)
+write delete account function. (20 min)
