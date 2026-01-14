@@ -147,6 +147,31 @@ void subserver_logic(int client_socket){
         }
     } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
       break;
+    } else if (strcmp(args[0], "remove") == 0){
+      if (args[1] == NULL){
+        printf("error: please include playlist to remove from\n");
+        fflush(stdout);
+        continue;
+      } else if (args[2] == NULL){
+        printf("error: please include song to remove\n");
+        fflush(stdout);
+      } else{
+        int found = 0;
+        for(int i = 0; i < 5; i++){
+          if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
+            found = 1;
+            if (!remove_song(&(current_user.user_playlists[i]), args[2])){
+              printf("error: song not found\n");
+              fflush(stdout);
+            }
+            break;
+          }
+        }
+        if (!found){
+          printf("error: playlist not found\n");
+          fflush(stdout);
+        }
+      }
     } else {  // if it doesnt say play
       printf("invalid command.");
       fflush(stdout);
