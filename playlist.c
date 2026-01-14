@@ -69,7 +69,18 @@ void list_playlists(struct user* u){
   }
 }
 
-//
+// sets playlist name to first empty place in playlist array
+void make_playlist(struct user* u, char* name){
+  for(int i = 0; i < 5; i++){
+    if(user->user_playlist[i].name[0] == '\0'){
+      strcpy(user->user_playlist[i].name, name);
+      printf("%s successfully created. you now have %d out of 5 playlists\n", name, i);
+      break;
+    } else {
+      printf("No slots available. Please delete a playlist.\n");
+    }
+  }
+}
 
 //takes in a filename and a playlist pointer
 //writes the playlist to the file in a format suitable for mpg123
