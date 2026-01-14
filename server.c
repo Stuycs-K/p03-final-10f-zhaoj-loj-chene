@@ -172,7 +172,40 @@ void subserver_logic(int client_socket){
           fflush(stdout);
         }
       }
-    } else {  // if it doesnt say play
+    } else if (strcmp(args[0], "add") == 0){
+      if (args[1] == NULL){
+        printf("error: please include playlist to add to\n");
+        fflush(stdout);
+        continue;
+      } else if (args[2] == NULL){
+        printf("error: please include song to add\n");
+        fflush(stdout);
+      } else{
+        char path[256];
+        sprintf(path, "./music/%s", args[2]);
+        struct stat st;
+        if (stat(path, &st) != 0){
+          printf("error: song not found");
+          fflush(stdout);
+        } else {
+          int found = 0;
+          for(int i = 0; i < 5; i++){
+            if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
+              found = 1;
+              if (!add_song(&(current_user.user_playlists[i]), args[2])){
+                printf("error: playlist full\n");
+                fflush(stdout);
+              }
+              break;
+            }
+          }
+          if (!found){
+            printf("error: playlist not found\n");
+            fflush(stdout);
+          }
+        }
+      }
+    } else {
       printf("invalid command.");
       fflush(stdout);
     }
