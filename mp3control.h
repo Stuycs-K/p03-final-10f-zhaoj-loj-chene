@@ -11,4 +11,4 @@
 
 void stop_playback();
 void cleanup(int sig);
-void play_with_volume(int percent);
+void adjust_volume(int percent);
