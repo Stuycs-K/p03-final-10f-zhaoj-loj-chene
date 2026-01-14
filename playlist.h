@@ -8,4 +8,7 @@
   void view_playlist(struct playlist* p);
   void write_playlist(char* filename, struct playlist* p);
   void read_playlist(char* filename, struct playlist* p);
+  void list_playlists(struct user* u);
+  void make_playlist(struct user* u, char* name);
+  void delete_playlist(struct user* u, char* name);
 #endif
