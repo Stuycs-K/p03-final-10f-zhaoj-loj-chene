@@ -57,6 +57,8 @@ int login(char* username, char* password, struct user* u_ptr){
   return 0;
 }
 
+//takes in a username and deletes that account in the users data file
+//removes nothing if username isn't there
 void delete_account(char* username){
   int dat = open("users.dat", O_RDONLY, 0);
   if (dat < 0){

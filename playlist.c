@@ -30,17 +30,32 @@ int add_song(struct playlist* p, char* name){
 //returns 0 if song isn't in playlist, 1 otherwise
 int remove_song(struct playlist* p, char* name){
   int i = 0;
-  while(strcmp(name, p->songs[i]) != 0){
+  while(i < 50 && strcmp(name, p->songs[i]) != 0){
     i++;
   }
   if (i == 50){ //song not found
     return 0;
   }
   for(int k = i; k < 50 - 1; k++){ //shift songs to clear gap
-    strcpy(p->songs[i], p->songs[i + 1]);
+    strcpy(p->songs[k], p->songs[k + 1]);
   }
   p->songs[49][0] = '\0';
-  return 0;
+  return 1;
+}
+
+//prints the name and songs in a playlist
+void view_playlist(struct playlist* p){
+  if (p->name[0] != '\0'){
+    printf("name: %s\n", p->name);
+    int i = 0;
+    while(i < 50 && p->songs[i][0] != '\0'){
+      printf("[%d]: %s\n", i, p->songs[i]);
+      i++;
+    }
+  }
+  else{
+    printf("playlist empty\n");
+  }
 }
 
 //takes in a filename and a playlist pointer
