@@ -5,7 +5,7 @@ default :
 
 compile: client server
 
-client: client.o networking.o
+client: client.o networking.o audiocontrol.o
 	@gcc -o client client.o networking.o
 
 server: server.o networking.o account.o
@@ -26,9 +26,6 @@ account.o: account.c account.h
 audiocontrol.o: audiocontrol.c audiocontrol.h
 	@gcc -Wall -c audiocontrol.c
 
-audiocontrol: audiocontrol.o
-	@gcc -o audiocontrol audiocontrol.o
-
 clean:
-	@rm -f *.o client server audiocontrol users.dat
+	@rm -f *.o client server temp.mp3
 	@rm -f *~

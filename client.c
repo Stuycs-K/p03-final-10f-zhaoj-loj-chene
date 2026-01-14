@@ -1,4 +1,5 @@
 #include "networking.h"
+#include "audiocontrol.h"
 
 int main(int argc, char *argv[] ) {
   char* IP = "127.0.0.1";
@@ -27,7 +28,6 @@ int main(int argc, char *argv[] ) {
         if(!header_end) continue;
 
         sscanf(buffer, "FILE|%ld|%s", &file_size, filename);
-        printf("receiving %s (%ld bytes)...\n", filename, file_size);
 
         FILE *temp = fopen("temp.mp3", "wb"); // receive file data
         long received = 0;
@@ -41,7 +41,6 @@ int main(int argc, char *argv[] ) {
 
         while(received < file_size){
             bytes = recv(server_socket, buffer, BUFFER_SIZE, 0);
-            printf("%ld byte copied \n", received);
             if(bytes <= 0) break;
             fwrite(buffer, 1, bytes, temp);
             received += bytes;
@@ -61,7 +60,9 @@ int main(int argc, char *argv[] ) {
         printf("done playing.\n");
         fflush(stdout);
 
-      } else {
+      } else if (strcmp(buffer, "exit\n") == 0){ // when user types exit
+        exit(0); //weird outputs delete
+      }else {
         printf("%s", buffer); // regular text message
         fflush(stdout);
       }
@@ -73,6 +74,16 @@ int main(int argc, char *argv[] ) {
     char buffer[BUFFER_SIZE]; // parent: sends to server
     while(1){
       if (fgets(buffer, BUFFER_SIZE, stdin) == NULL) break;
+      if (strncmp(buffer, "vol", 3) == 0) {
+        int vol = atoi(buffer + 3);
+        if (vol < 0) {
+            printf("volume must be over 0 \n");
+            continue;
+        }
+        printf("setting volume to %d%%\n", vol);
+        play_with_volume(vol);
+        continue;
+      }
       send(server_socket, buffer, strlen(buffer), 0);
     }
     close(server_socket);
