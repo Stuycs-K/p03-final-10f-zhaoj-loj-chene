@@ -57,6 +57,26 @@ int login(char* username, char* password, struct user* u_ptr){
   return 0;
 }
 
-int delete_account(char* username, char* passowrd){
+void delete_account(char* username){
+  int dat = open("users.dat", O_RDONLY, 0);
+  if (dat < 0){
+    error();
+  }
+  int tmp = open("users.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  if (tmp < 0){
+    error();
+  }
 
+  struct user u;
+  while(read(dat, &u, sizeof(struct user)) == sizeof(struct user)){
+    if (strcmp(u.username, username) == 0){ //skip 
+      continue;
+    }
+    if (write(tmp, &u, sizeof(struct user)) < 0){
+      error();
+    }
+  }
+  close(tmp);
+  close(dat);
+  rename("users.tmp", "users.dat");
 }

@@ -5,5 +5,5 @@
   void error();
   int createuser(char* username, char* password);
   int login(char* username, char* password, struct user* u_ptr);
-  int delete_account(char* username, char* passowrd);
+  void delete_account(char* username);
 #endif

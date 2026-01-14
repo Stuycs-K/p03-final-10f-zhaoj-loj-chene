@@ -24,7 +24,7 @@ int add_song(struct playlist* p, char* name){
 //returns 0 if song isn't in playlist, 1 otherwise
 int remove_song(struct playlist* p, char* name){
   int i = 0;
-  while(!strcmp(name, p->songs[i])){
+  while(strcmp(name, p->songs[i]) != 0){
     i++;
   }
   if (i == 50){ //song not found
