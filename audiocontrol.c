@@ -35,7 +35,6 @@ void play_with_volume(int percent) {
     }
 }
 
-/*
 int main(int argc, char *argv[]) {
 
     if (argc < 2) {
@@ -46,6 +45,7 @@ int main(int argc, char *argv[]) {
     mp3_file = argv[1];
     char path[256] = "./music/";
     strcat(path, mp3_file);
+    mp3_file = path;
     printf("trying to open %s \n", path);
     FILE *file = fopen(path, "rb");
     if(!file){
@@ -86,4 +86,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-*/

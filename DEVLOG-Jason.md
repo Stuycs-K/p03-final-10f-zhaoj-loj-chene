@@ -36,4 +36,6 @@ now use that to combine with mpg123 with volume adjusting, pausing, etc
 ### 2024-01-12 - audio control, pause, volume, playlists?
 can all be done just through mpg123 player so 1 hr of my life wasted
 
-### 2024-01-12 - better volume control
+### 2024-01-13 - better volume control
+was trying to add the audiocontrol.c but then undid changes (1.5 hrs)
+this is bc also the mpg123 terminal control only works when ur running it directly, we are doing it wrong rn and we have to run it remotely like specifically how it was to be run remotely with mpg123 -R, the inputs are on the txt file

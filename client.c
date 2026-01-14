@@ -1,5 +1,4 @@
 #include "networking.h"
-#include "audiocontrol.h"
 
 int main(int argc, char *argv[] ) {
   char* IP = "127.0.0.1";
@@ -74,16 +73,6 @@ int main(int argc, char *argv[] ) {
     char buffer[BUFFER_SIZE]; // parent: sends to server
     while(1){
       if (fgets(buffer, BUFFER_SIZE, stdin) == NULL) break;
-      if (strncmp(buffer, "vol", 3) == 0) {
-        int vol = atoi(buffer + 3);
-        if (vol < 0) {
-            printf("volume must be over 0 \n");
-            continue;
-        }
-        printf("setting volume to %d%%\n", vol);
-        play_with_volume(vol);
-        continue;
-      }
       send(server_socket, buffer, strlen(buffer), 0);
     }
     close(server_socket);
