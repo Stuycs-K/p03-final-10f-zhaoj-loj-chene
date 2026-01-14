@@ -86,7 +86,7 @@ void make_playlist(struct user* u, char* name){
 void delete_playlist(struct user* u, char* name){
   for(int i = 0; i < 5; i++){
     if(strcmp(user->user_playlist[i].name, name) == 0){
-      user->user_playlist[i].name = NULL;
+      user->user_playlist[i].name = NULL; //might have to clear the songs in that playlist
       printf("%s successfully deleted.\n", name);
       break;
     } else {
