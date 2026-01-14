@@ -7,9 +7,9 @@
 #include <errno.h>
 
 void error(){
-    printf("errno %d\n",errno);
-    printf("%s\n",strerror(errno));
-    exit(1);
+  printf("errno %d\n",errno);
+  printf("%s\n",strerror(errno));
+  exit(1);
 }
 
 //returns 0 if username taken, 1 otherwise

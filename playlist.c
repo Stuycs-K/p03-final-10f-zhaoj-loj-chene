@@ -6,11 +6,17 @@
 #include <unistd.h>
 #include <errno.h>
 
+void error(){
+  printf("errno %d\n",errno);
+  printf("%s\n",strerror(errno));
+  exit(1);
+}
+
 //takes a playlist pointer and a song name
 //appends the song name to the playlist
 //returns 0 if playlist is full, 1 otherwise
 int add_song(struct playlist* p, char* name){
-  for(int i = 0; i < 50, i++){
+  for(int i = 0; i < 50; i++){
     if(p->songs[i][0] == '\0'){
       strcpy(p->songs[i], name);
       return 1;
