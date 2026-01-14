@@ -82,6 +82,19 @@ void make_playlist(struct user* u, char* name){
   }
 }
 
+// deletes playlists
+void delete_playlist(struct user* u, char* name){
+  for(int i = 0; i < 5; i++){
+    if(strcmp(user->user_playlist[i].name, name) == 0){
+      user->user_playlist[i].name = NULL;
+      printf("%s successfully deleted.\n", name);
+      break;
+    } else {
+      printf("%s does not exist.\n", name);
+    }
+  }
+}
+
 //takes in a filename and a playlist pointer
 //writes the playlist to the file in a format suitable for mpg123
 //creates file if it doesn't exist and replaces it if it does
