@@ -28,7 +28,7 @@ int main(int argc, char *argv[] ) {
 
         sscanf(buffer, "FILE|%ld|%s", &file_size, filename);
 
-        FILE *temp = fopen("temp.mp3", "wb"); // receive file data
+        FILE *temp = fopen(filename, "wb"); // receive file data
         long received = 0;
 
         int header_len = (header_end - buffer) + 1; // +1 for the '\n'
