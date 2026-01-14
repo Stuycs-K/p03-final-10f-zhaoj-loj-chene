@@ -7,9 +7,9 @@
 #include <errno.h>
 
 void error(){
-    printf("errno %d\n",errno);
-    printf("%s\n",strerror(errno));
-    exit(1);
+  printf("errno %d\n",errno);
+  printf("%s\n",strerror(errno));
+  exit(1);
 }
 
 //returns 0 if username taken, 1 otherwise
@@ -57,49 +57,30 @@ int login(char* username, char* password, struct user* u_ptr){
   return 0;
 }
 
-//takes in a filename and a playlist pointer
-//writes the playlist to the file in a format suitable for mpg123
-//creates file if it doesn't exist and replaces it if it does
-void write_playlist(char* filename, struct playlist* p){
-  int f = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-  if (f < 0){
-    error();
-  }
-  if (write(f, p->name, strlen(p->name)) < 0){
-    error();
-  }
-  write(f, "\n", 1); //newline for mpg123 playlist format
 
-  for(int i = 0; i < 50; i++){
-    if (p->songs[i][0] == '\0'){ //break loop if song is null
-      break;
+//takes in a username and deletes that account in the users data file
+//removes nothing if username isn't there
+void delete_account(char* username){
+  int dat = open("users.dat", O_RDONLY, 0);
+  if (dat < 0){
+
+    error();
+  }
+  int tmp = open("users.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+  if (tmp < 0){
+    error();
+  }
+
+  struct user u;
+  while(read(dat, &u, sizeof(struct user)) == sizeof(struct user)){
+    if (strcmp(u.username, username) == 0){ //skip
+      continue;
     }
-    if (write(f, p->songs[i], strlen(p->songs[i])) < 0){
+    if (write(tmp, &u, sizeof(struct user)) < 0){
       error();
     }
-    write(f, "\n", 1);
   }
-  close(f);
-}
-
-void read_playlist(char* filename, struct playlist* p){
-  FILE* fp = fopen(filename, "r");
-  if (!fp){
-    error();
-  }
-  char line[100];
-  int index = 0;
-  memset(p, 0, sizeof(struct playlist)); //assuming memory of playlist was not necessarily allocated
-  if (!fgets(line, sizeof(line), fp)) { //read playlist name
-    error();
-  }
-  line[strcspn(line, "\n")] = '\0'; //trim newline at end
-  strcpy(p->name, line);
-
-  while (fgets(line, sizeof(line), fp) && index < 50){
-      line[strcspn(line, "\n")] = '\0';
-      strcpy(p->songs[index], line);
-      index++;
-  }
-  fclose(fp);
+  close(tmp);
+  close(dat);
+  rename("users.tmp", "users.dat");
 }
