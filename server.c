@@ -237,7 +237,7 @@ void subserver_logic(int client_socket){
           fflush(stdout);
         }
       }
-    } else if(strcmp(args[0], "delete") == 0){ 
+    } else if(strcmp(args[0], "delete") == 0){
       if (args[1] == NULL){
         printf("error: please include playlist to delete or \"account\" to delete account\n");
         fflush(stdout);
@@ -245,7 +245,7 @@ void subserver_logic(int client_socket){
         delete_account(current_user.username);
         send(client_socket, "EXIT", 4, 0);
       } else {
-        
+
       }
     } else {
       printf("invalid command.");

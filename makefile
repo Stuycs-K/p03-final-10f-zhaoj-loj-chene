@@ -27,5 +27,5 @@ playlist.o: playlist.c playlist.h structs.h
 	@gcc -Wall -c playlist.c
 
 clean:
-	@rm -f *.o client server temp.mp3
+	@rm -f *.o client server *.mp3
 	@rm -f *~
