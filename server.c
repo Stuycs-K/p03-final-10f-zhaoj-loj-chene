@@ -213,9 +213,11 @@ void subserver_logic(int client_socket){
         fflush(stdout);
       } else {
         make_playlist(&current_user, args[1]);
+        fflush(stdout);
       }
     } else if (strcmp(args[0], "playlists") == 0){
       list_playlists(&current_user);
+      fflush(stdout);
     } else if (strcmp(args[0], "view") == 0){
       if (args[1] == NULL){
         printf("error: please include playlist to view\n");
@@ -226,6 +228,7 @@ void subserver_logic(int client_socket){
           if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
             found = 1;
             view_playlist(&(current_user.user_playlists[i]));
+            fflush(stdout);
             break;
           }
         }
@@ -240,12 +243,12 @@ void subserver_logic(int client_socket){
         fflush(stdout);
       } else if (strcmp(args[1], "account") == 0){
         delete_account(current_user.username);
-        send(client_socket, "EXIT", 4, 0);
+        break;
       } else {
         
       }
     } else {
-      printf("invalid command.");
+      printf("invalid command.\n");
       fflush(stdout);
     }
   }
