@@ -19,3 +19,7 @@ write functions to write to and read from a playlist file based on a playlist st
 ### 2026-01-13 - playlist edit functions
 write functions to edit and interact with playlists, ex. add, remove. (1.5 hrs)
 write delete account function. (20 min)
+
+### 2026-01-13 - user commands
+add user commands for playlists and account managing functions. (1.5 hrs)
+bugfixing (mostly duplicate structs/func includes). (20 min)
