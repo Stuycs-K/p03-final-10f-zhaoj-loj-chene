@@ -94,6 +94,7 @@ void subserver_logic(int client_socket){
   char buffer[BUFFER_SIZE];
   char command[BUFFER_SIZE];
   char *args[10];
+  int currently_playing = 0;
 
   while(fgets(buffer, BUFFER_SIZE, stdin) != NULL){
     size_t len = strlen(buffer);
@@ -140,6 +141,7 @@ void subserver_logic(int client_socket){
 
           char file_buffer[BUFFER_SIZE]; // Send file data
           size_t bytes_read;
+          currently_playing = 1;
           while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
               send(client_socket, file_buffer, bytes_read, 0);
           }
@@ -147,9 +149,12 @@ void subserver_logic(int client_socket){
 
           printf("sent %s to client\n", args[1]);
           fflush(stdout);
-        }
+      }
     } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
       break;
+    } else if (currently_playing) == 1){  // to exit the play commands
+      break;
+      // EDITTTTT THISSSSSSSS
     } else {  // if it doesnt say play
       printf("invalid command.");
       fflush(stdout);
