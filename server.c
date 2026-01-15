@@ -150,7 +150,7 @@ void subserver_logic(int client_socket){
           fclose(file);
         }
     } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
-      send(client_socket, "exit", 50, 0);
+      send(client_socket, "logged out", 50, 0);
       break;
     } else if (strcmp(args[0], "remove") == 0){
       if (args[1] == NULL){

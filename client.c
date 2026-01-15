@@ -14,14 +14,9 @@ int main(int argc, char *argv[] ) {
     while(1){
       int bytes = recv(server_socket, buffer, BUFFER_SIZE - 1, 0);
       if(bytes <= 0){
-        printf("server disconnected\n");
         break;
       }
       buffer[bytes] = '\0';
-
-      if(strcmp(buffer, "EXIT") == 0){ //check for exit message from server
-        exit(0);
-      }
 
       if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
         long file_size;
@@ -65,14 +60,14 @@ int main(int argc, char *argv[] ) {
 
         printf(">");
         fflush(stdout);
-      } else if (strcmp(buffer, "exit\n") == 0){ // when user types exit
-        exit(0); //weird outputs delete
+      } else if (strcmp(buffer, "logged out\n") == 0){ // when user types exit
+        exit(0);
       }else {
         printf("%s", buffer); // regular text message
         fflush(stdout);
       }
     }
-    kill(getppid(), SIGKILL);
+    kill(getppid(), SIGINT);
     exit(0);
 
   } else {
