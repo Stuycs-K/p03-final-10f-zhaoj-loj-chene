@@ -63,6 +63,8 @@ int main(int argc, char *argv[] ) {
         printf("done playing.\n");
         fflush(stdout);
 
+        printf(">");
+        fflush(stdout);
       } else if (strcmp(buffer, "exit\n") == 0){ // when user types exit
         exit(0); //weird outputs delete
       }else {
