@@ -1,4 +1,5 @@
 #include "playlist.h"
+#include "structs.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-void error(){
+static void error(){
   printf("errno %d\n",errno);
   printf("%s\n",strerror(errno));
   exit(1);
@@ -61,8 +62,8 @@ void view_playlist(struct playlist* p){
 // lists all the user's playlists
 void list_playlists(struct user* u){
   for(int i = 0; i < 5; i++){
-    if(user->user_playlist[i].name[0] != '\0'){
-      printf("%s\n", user->user_playlist[i].name);
+    if(u->user_playlists[i].name[0] != '\0'){
+      printf("%s\n", u->user_playlists[i].name);
     } else {
       break;
     }
@@ -72,8 +73,8 @@ void list_playlists(struct user* u){
 // sets playlist name to first empty place in playlist array
 void make_playlist(struct user* u, char* name){
   for(int i = 0; i < 5; i++){
-    if(user->user_playlist[i].name[0] == '\0'){
-      strcpy(user->user_playlist[i].name, name);
+    if(u->user_playlists[i].name[0] == '\0'){
+      strcpy(u->user_playlists[i].name, name);
       printf("%s successfully created. you now have %d out of 5 playlists\n", name, i);
       break;
     } else {
@@ -85,8 +86,8 @@ void make_playlist(struct user* u, char* name){
 // deletes playlists
 void delete_playlist(struct user* u, char* name){
   for(int i = 0; i < 5; i++){
-    if(strcmp(user->user_playlist[i].name, name) == 0){
-      user->user_playlist[i].name = NULL; //might have to clear the songs in that playlist
+    if(strcmp(u->user_playlists[i].name, name) == 0){
+      u->user_playlists[i].name[0] = '\0'; //might have to clear the songs in that playlist
       printf("%s successfully deleted.\n", name);
       break;
     } else {

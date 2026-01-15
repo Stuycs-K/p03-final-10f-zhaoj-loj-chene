@@ -8,20 +8,23 @@ compile: client server
 client: client.o networking.o
 	@gcc -o client client.o networking.o
 
-server: server.o networking.o account.o
-	@gcc -o server server.o networking.o account.o
+server: server.o networking.o account.o playlist.o
+	@gcc -o server server.o networking.o account.o playlist.o
 
 client.o: client.c networking.h
 	@gcc -Wall -c client.c
 
-server.o: server.c networking.h account.h
+server.o: server.c networking.h account.h playlist.h structs.h
 	@gcc -Wall -c server.c
 
 networking.o: networking.c networking.h
 	@gcc -Wall -c networking.c
 
-account.o: account.c account.h
+account.o: account.c account.h structs.h
 	@gcc -Wall -c account.c
+
+playlist.o: playlist.c playlist.h structs.h
+	@gcc -Wall -c playlist.c
 
 clean:
 	@rm -f *.o client server users.dat temp.mp3
