@@ -51,6 +51,11 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
+            int dnull = open("/dev/null", O_WRONLY); // to close the socket's write end on client side using /dev/null deletes output
+            dup2(dnull, STDOUT_FILENO);
+            dup2(dnull, STDERR_FILENO);
+            close(dnull);
+
             execlp("mpg123", "mpg123", "-R", NULL);
             exit(1);
         }
