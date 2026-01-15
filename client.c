@@ -19,6 +19,10 @@ int main(int argc, char *argv[] ) {
       }
       buffer[bytes] = '\0';
 
+      if(strcmp(buffer, "EXIT") == 0){ //check for exit message from server
+        exit(0);
+      }
+
       if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
         long file_size;
         char filename[100];

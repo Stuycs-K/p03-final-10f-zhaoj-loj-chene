@@ -1,5 +1,7 @@
+#include "structs.h"
 #include "networking.h"
 #include "account.h"
+#include "playlist.h"
 
 int parse(char * line, char * delim, char ** arg_ary){
   char * token = calloc(1, sizeof(line) + 1);
@@ -150,7 +152,102 @@ void subserver_logic(int client_socket){
     } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
       send(client_socket, "exit", 50, 0);
       break;
-    } else {  // if it doesnt say play
+    } else if (strcmp(args[0], "remove") == 0){
+      if (args[1] == NULL){
+        printf("error: please include playlist to remove from\n");
+        fflush(stdout);
+        continue;
+      } else if (args[2] == NULL){
+        printf("error: please include song to remove\n");
+        fflush(stdout);
+      } else{
+        int found = 0;
+        for(int i = 0; i < 5; i++){
+          if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
+            found = 1;
+            if (!remove_song(&(current_user.user_playlists[i]), args[2])){
+              printf("error: song not found\n");
+              fflush(stdout);
+            }
+            break;
+          }
+        }
+        if (!found){
+          printf("error: playlist not found\n");
+          fflush(stdout);
+        }
+      }
+    } else if (strcmp(args[0], "add") == 0){
+      if (args[1] == NULL){
+        printf("error: please include playlist to add to\n");
+        fflush(stdout);
+        continue;
+      } else if (args[2] == NULL){
+        printf("error: please include song to add\n");
+        fflush(stdout);
+      } else{
+        char path[256];
+        sprintf(path, "./music/%s", args[2]);
+        struct stat st;
+        if (stat(path, &st) != 0){
+          printf("error: song not found");
+          fflush(stdout);
+        } else {
+          int found = 0;
+          for(int i = 0; i < 5; i++){
+            if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
+              found = 1;
+              if (!add_song(&(current_user.user_playlists[i]), args[2])){
+                printf("error: playlist full\n");
+                fflush(stdout);
+              }
+              break;
+            }
+          }
+          if (!found){
+            printf("error: playlist not found\n");
+            fflush(stdout);
+          }
+        }
+      }
+    } else if (strcmp(args[0], "make") == 0){
+      if (args[1] == NULL){
+        printf("error: please include a name\n");
+        fflush(stdout);
+      } else {
+        make_playlist(&current_user, args[1]);
+      }
+    } else if (strcmp(args[0], "playlists") == 0){
+      list_playlists(&current_user);
+    } else if (strcmp(args[0], "view") == 0){
+      if (args[1] == NULL){
+        printf("error: please include playlist to view\n");
+        fflush(stdout);
+      } else {
+        int found = 0;
+        for(int i = 0; i < 5; i++){
+          if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
+            found = 1;
+            view_playlist(&(current_user.user_playlists[i]));
+            break;
+          }
+        }
+        if (!found){
+          printf("error: playlist not found\n");
+          fflush(stdout);
+        }
+      }
+    } else if(strcmp(args[0], "delete") == 0){ 
+      if (args[1] == NULL){
+        printf("error: please include playlist to delete or \"account\" to delete account\n");
+        fflush(stdout);
+      } else if (strcmp(args[1], "account") == 0){
+        delete_account(current_user.username);
+        send(client_socket, "EXIT", 4, 0);
+      } else {
+        
+      }
+    } else {
       printf("invalid command.");
       fflush(stdout);
     }
