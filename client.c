@@ -55,7 +55,7 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", "temp.mp3", NULL);
+            execlp("mpg123", "mpg123", filename, NULL);
             exit(1);
         }
         waitpid(player, NULL, 0);
