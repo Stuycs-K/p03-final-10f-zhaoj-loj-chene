@@ -28,7 +28,7 @@ int main(int argc, char *argv[] ) {
 
         sscanf(buffer, "FILE|%ld|%s", &file_size, filename);
 
-        FILE *temp = fopen("temp.mp3", "wb"); // receive file data
+        FILE *temp = fopen(filename, "wb"); // receive file data
         long received = 0;
 
         int header_len = (header_end - buffer) + 1; // +1 for the '\n'
@@ -51,11 +51,10 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", "temp.mp3", NULL);
+            execlp("mpg123", "mpg123", filename, NULL);
             exit(1);
         }
         waitpid(player, NULL, 0);
-
         printf("done playing.\n");
         fflush(stdout);
 

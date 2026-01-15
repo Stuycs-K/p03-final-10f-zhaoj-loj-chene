@@ -120,6 +120,31 @@ void subserver_logic(int client_socket){
             if (strcmp(current_user.user_playlists[i].name, args[2]) == 0){
               found = 1;
               write_playlist(current_user.user_playlists[i].name, &(current_user.user_playlists[i]));
+              for (int k = 0; current_user.user_playlists[i].songs[k][0] != '\0'; k++){ //send data for client to download
+                char path[256] = "./music/";
+                strcat(path, current_user.user_playlists[i].songs[k]);
+                FILE *file = fopen(path, "rb");
+                if(!file){
+                  printf("error: song not found\n");
+                  fflush(stdout);
+                  continue;
+                }
+
+                fseek(file, 0, SEEK_END);// get file size
+                long file_size = ftell(file);
+                rewind(file);
+
+                char header[300]; // send header: "PLAYLIST|size|filename\n"
+                sprintf(header, "PLAYLIST|%ld|%s\n", file_size, args[1]);
+                send(client_socket, header, strlen(header), 0);
+
+                char file_buffer[BUFFER_SIZE]; // Send file data
+                size_t bytes_read;
+                while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
+                    send(client_socket, file_buffer, bytes_read, 0);
+                }
+                fclose(file);
+              }
               break;
             }
           }
