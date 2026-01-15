@@ -40,3 +40,10 @@ Pushed project proposal into repo
 - created function to list all user's playlists (10 min)
 - created function to make new playlist in slot (10 min)
 - created function to delete playlist (10 min)
+
+### 2026-01-15 - improving UI
+- fix temp file name error (3 min)
+- update makefile to remove temporary mp3 files copied to client (3 min)
+- add prompter each time after song finishes playing (10 min)
+- remove messages after exiting (15 min)
+- testing new updates/functions (5 min)
