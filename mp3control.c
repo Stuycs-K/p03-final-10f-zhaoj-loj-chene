@@ -40,7 +40,7 @@ int start_mpg123_remote() {
 
 void load_file(char *filename) {
     if (mpg123_stdin == -1) {
-        fprintf(stderr, "mpg123 not running\n");
+        fprintf(stderr, "trying to load, but mpg123 not running\n");
         return;
     }
 
@@ -52,7 +52,7 @@ void load_file(char *filename) {
 
 void stop_playback() {
     if (mpg123_stdin == -1) {
-        fprintf(stderr, "mpg123 not running\n");
+        fprintf(stderr, "trying to stop, but mpg123 not running\n");
         return;
     }
     kill(mpg123_pid, SIGTERM);
@@ -62,7 +62,7 @@ void stop_playback() {
 
 void pause_playback() {
     if (mpg123_stdin == -1) {
-        fprintf(stderr, "mpg123 not running\n");
+        fprintf(stderr, "trying to pause, but mpg123 not running\n");
         return;
     }
     write(mpg123_stdin, "PAUSE\n", 6);
@@ -77,7 +77,7 @@ void cleanup(int sig) {
 
 void set_volume(int percent) {
     if (mpg123_stdin == -1) {
-        fprintf(stderr, "mpg123 not running\n");
+        fprintf(stderr, "trying to set vol, but mpg123 not running\n");
         return;
     }
     if (percent < 0) {

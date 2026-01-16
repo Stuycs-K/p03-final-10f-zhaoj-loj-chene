@@ -20,47 +20,20 @@ int main(int argc, char *argv[] ) {
       }
       buffer[bytes] = '\0';
 
-      if(strncmp(buffer, "DOWNLOAD|", 9) == 0){   // download but don't play
-        long file_size;
-        char filename[100];
-
-        char *header_end = strchr(buffer, '\n');
-        if(!header_end) continue;
-
-        sscanf(buffer, "DOWNLOAD|%ld|%s", &file_size, filename);
-
-        FILE *temp = fopen(filename, "wb"); // receive file data
-        long received = 0;
-
-        int header_len = (header_end - buffer) + 1; // +1 for the '\n'
-        int extra_bytes = bytes - header_len;
-        if(extra_bytes > 0){
-            fwrite(header_end + 1, 1, extra_bytes, temp);
-            received += extra_bytes;
-        }
-
-        while(received < file_size){
-            bytes = recv(server_socket, buffer, BUFFER_SIZE, 0);
-            if(bytes <= 0) break;
-            fwrite(buffer, 1, bytes, temp);
-            received += bytes;
-        }
-        fclose(temp);
-
-        printf("downloaded %s\n", filename);
-        fflush(stdout);
-
-        if(mpg123_pid == -1){
-            start_mpg123_remote();
-            sleep(1); // give mpg123 time to start
-        }
-
-      } else if(strncmp(buffer, "play|", 5) == 0){
+      if(strncmp(buffer, "play|", 5) == 0){
         char filename[100];
         sscanf(buffer, "play|%s", filename);
 
         printf("playing %s...\n", filename); // play the file
         fflush(stdout);
+
+        printf("mpg123_pid is %d \n", mpg123_pid);
+        fflush(stdout);
+        
+        if(mpg123_pid == -1){
+            start_mpg123_remote();
+            sleep(1); // give mpg123 time to start
+        }
 
         int player = fork();
         if(player == 0){
