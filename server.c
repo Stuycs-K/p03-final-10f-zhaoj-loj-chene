@@ -165,6 +165,7 @@ void subserver_logic(int client_socket){
             sprintf(header, "playlist|%s\n", args[2]);
             send(client_socket, header, strlen(header), 0);
 
+            /*
             printf("playing playlist %s...\n", args[2]);
             fflush(stdout);
 
@@ -184,6 +185,7 @@ void subserver_logic(int client_socket){
 
             printf("finished sending playlist %s\n", args[2]);
             fflush(stdout);
+            */
           }
         }
       } else {
@@ -204,7 +206,7 @@ void subserver_logic(int client_socket){
             fflush(stdout);
         }
     } else if(strcmp(args[0], "pause") == 0){
-      send(client_socket, "PAUSE\n", 6, 0);
+      send(client_socket, "P\n", 2, 0);
       printf("sent pause command\n");
       fflush(stdout);
     } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client

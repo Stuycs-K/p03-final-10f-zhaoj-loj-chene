@@ -48,3 +48,9 @@ testing with these (1 hr)
 ### 2024-01-15 - running mpg123 remotely
 fixes, allowing for option
 video and editing the video 2 hr
+
+### 2024-01-16 - running mpg123 remotely
+ALL THESE CHANGES ARE ON MY BRANCH (Jason) because they are little buggy
+3 hrs for the following funtionalities (i am writing this while sick so despite my 3 hours of time today, it was really inefficient)
+remote volume setting works but for some reason pause doesnt despite sending to same socket
+playlist running requires the mp3 files to be in the same folder, i tried making it so when playlist runs, it sends all teh files first but it gets too chaotic when the client is processing all the commands at once
