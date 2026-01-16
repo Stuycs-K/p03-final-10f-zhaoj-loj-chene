@@ -54,7 +54,7 @@ int main(int argc, char *argv[] ) {
             start_mpg123_remote();
             sleep(1); // give mpg123 time to start
         }
-        
+
       } else if(strncmp(buffer, "play|", 5) == 0){
         char filename[100];
         sscanf(buffer, "play|%s", filename);
@@ -102,7 +102,7 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", "-R", NULL);
+            execlp("mpg123", "mpg123", filename, NULL);
             exit(1);
         }
         waitpid(player, NULL, 0);

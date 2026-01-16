@@ -4,6 +4,21 @@ pid_t mpg123_pid = -1;
 int mpg123_stdin = -1;
 int mpg123_stdout = -1;
 
+int start_mpg123_remote() {
+}
+
+void load_file(const char *filename) {
+    if (mpg123_stdin == -1) {
+        fprintf(stderr, "mpg123 not running\n");
+        return;
+    }
+
+    char command[BUFFER_SIZE];
+    snprintf(command, sizeof(command), "LOAD %s\n", filename);
+    write(mpg123_stdin, command, strlen(command));
+    printf("loading: %s\n", filename);
+}
+
 void stop_playback() {
     if (mpg123_stdin == -1) {
         fprintf(stderr, "mpg123 not running\n");
