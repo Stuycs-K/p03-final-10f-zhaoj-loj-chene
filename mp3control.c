@@ -14,6 +14,15 @@ void stop_playback() {
     mpg123_pid = -1;
 }
 
+void pause_playback() {
+    if (mpg123_stdin == -1) {
+        fprintf(stderr, "mpg123 not running\n");
+        return;
+    }
+    write(mpg123_stdin, "PAUSE\n", 6);
+    printf("paused\n");
+}
+
 void cleanup(int sig) {
     stop_playback();
     printf("\nexiting.\n");
