@@ -17,4 +17,4 @@ extern int mpg123_stdout; // pipe from mpg123s stdout
 
 void stop_playback();
 void cleanup(int sig);
-void adjust_volume(int percent);
+void  set_volume(int percent);
