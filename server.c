@@ -172,7 +172,23 @@ void subserver_logic(int client_socket){
           }
           fclose(file);
         }
-    } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
+      } else if(strcmp(args[0], "vol") == 0){
+          if(args[1] == NULL){
+              printf("error: please specify volume (0-200)\n");
+              fflush(stdout);
+          } else {
+              int volume = atoi(args[1]);
+              char mpg123_command[50];
+              sprintf(mpg123_command, "VOL|%d\n", volume);
+              send(client_socket, mpg123_command, strlen(mpg123_command), 0);
+              printf("sent volume command: %d%%\n", volume);
+              fflush(stdout);
+          }
+      } else if(strcmp(args[0], "pause") == 0){
+          send(client_socket, "PAUSE\n", 6, 0);
+          printf("sent pause command\n");
+          fflush(stdout);
+      } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
       save(&current_user);
       send(client_socket, "logged out", 50, 0);
       break;

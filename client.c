@@ -1,4 +1,5 @@
 #include "networking.h"
+#include "mp3control.h"
 
 int main(int argc, char *argv[] ) {
   char* IP = "127.0.0.1";
@@ -48,8 +49,13 @@ int main(int argc, char *argv[] ) {
 
         printf("downloaded %s\n", filename);
         fflush(stdout);
-      }
-      else if(strncmp(buffer, "play|", 5) == 0){
+
+        if(mpg123_pid == -1){
+            start_mpg123_remote();
+            sleep(1); // give mpg123 time to start
+        }
+        
+      } else if(strncmp(buffer, "play|", 5) == 0){
         char filename[100];
         sscanf(buffer, "play|%s", filename);
 
@@ -64,8 +70,7 @@ int main(int argc, char *argv[] ) {
         waitpid(player, NULL, 0);
         printf("done playing.\n");
         fflush(stdout);
-      }
-      else if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
+      } else if(strncmp(buffer, "FILE|", 5) == 0){   // check if it's a file transfer
         long file_size;
         char filename[100];
 
