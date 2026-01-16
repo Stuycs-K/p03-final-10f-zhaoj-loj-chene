@@ -2,6 +2,7 @@
 #include "networking.h"
 #include "account.h"
 #include "playlist.h"
+#include "mp3control.h"
 
 int parse(char * line, char * delim, char ** arg_ary){
   char * token = calloc(1, sizeof(line) + 1);
@@ -198,19 +199,6 @@ void subserver_logic(int client_socket){
         if (!found){
           printf("error: playlist not found\n");
           fflush(stdout);
-<<<<<<< HEAD
-      }
-    } else if(strcmp(args[0], "vol") == 0 && args[1] != NULL){ //if it reads vol from stdin
-        char mpg123_command[50];
-        sprintf(mpg123_command, "V %s\n", args[1]);
-        send(client_socket, mpg123_command, strlen(mpg123_command), 0);
-        printf("set volume to %s\n", args[1]);
-        fflush(stdout);
-    } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
-      break;
-    } else {  // if it doesnt say play
-      printf("invalid command.");
-=======
         }
       }
     } else if (strcmp(args[0], "add") == 0){
@@ -300,7 +288,6 @@ void subserver_logic(int client_socket){
       }
     } else {
       printf("invalid command.\n");
->>>>>>> main
       fflush(stdout);
     }
   }

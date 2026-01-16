@@ -1,7 +1,8 @@
 #include "mp3control.h"
 
 pid_t mpg123_pid = -1;
-char *mp3_file;
+int mpg123_stdin = -1;
+int mpg123_stdout = -1;
 
 void stop_playback() {
     if (mpg123_pid > 0) {
@@ -33,24 +34,4 @@ void adjust_volume(int percent) {
         perror("mpg123 failed");
         exit(1);
     }
-}
-
-int main() {
-  while(fgets(buffer, BUFFER_SIZE, stdin) != NULL){
-
-  }
-  execlp("mpg123", "mpg123", "-R", NULL);
-
-  FILE *fptr = fopen(STDIN_FILENO, "wb");
-
-  int a[] = {1, 2, 3, 4, 5};
-  int n = sizeof(a) / sizeof(a[0]);
-
-  // Write array a[] into the file using fwrite
-  fwrite(a, sizeof(int), n, fptr);
-
-  fclose(fptr);
-  execlp("load", "load","./music/piano.mp3", NULL);
-  execlp("mpg123", "mpg123","V", 200, NULL);
-  return 0;
 }
