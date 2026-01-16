@@ -74,12 +74,12 @@ void save(struct user* u_ptr){
   }
   close(f);
 }
-
 //takes in a username and deletes that account in the users data file
 //removes nothing if username isn't there
 void delete_account(char* username){
   int dat = open("users.dat", O_RDONLY, 0);
   if (dat < 0){
+
     error();
   }
   int tmp = open("users.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);

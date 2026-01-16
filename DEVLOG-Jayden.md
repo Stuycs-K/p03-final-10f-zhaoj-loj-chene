@@ -12,3 +12,6 @@ write h file for account features, and write login function. (1.5 hrs)
 
 ### 2026-01-09 - login/create account prompt
 write and test functions for creating an account and prompting users to create or login using terminal input. (2 hrs)
+
+### 2026-01-12 - playlist read/write
+write functions to write to and read from a playlist file based on a playlist struct. (1.5 hrs)

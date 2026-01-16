@@ -42,6 +42,8 @@ void user_auth_prompt(struct user* u_ptr){
           username[strcspn(username, "\n")] = '\0';
           password[strcspn(password, "\n")] = '\0';
           if (createuser(username, password)){
+            printf("user created successfully. please log in.\n");
+            fflush(stdout);
             break;
           }
           printf("username taken\n");
@@ -166,7 +168,8 @@ void subserver_logic(int client_socket){
           fclose(file);
         }
     } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
-      save(&current_user);
+      save(&current_user); // to sign out of account and kill client
+      send(client_socket, "exit", 50, 0);
       break;
     } else if (strcmp(args[0], "remove") == 0){
       if (args[1] == NULL){
