@@ -185,9 +185,9 @@ void subserver_logic(int client_socket){
             fflush(stdout);
         }
     } else if(strcmp(args[0], "pause") == 0){
-        send(client_socket, "PAUSE\n", 6, 0);
-        printf("sent pause command\n");
-        fflush(stdout);
+      send(client_socket, "PAUSE\n", 6, 0);
+      printf("sent pause command\n");
+      fflush(stdout);
     } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
       save(&current_user);
       send(client_socket, "logged out", 50, 0);

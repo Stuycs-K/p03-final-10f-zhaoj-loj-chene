@@ -64,7 +64,7 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", "-@", filename, NULL);
+            load_file(filename);
             exit(1);
         }
         waitpid(player, NULL, 0);
@@ -102,7 +102,7 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", filename, NULL);
+            load_file(filename);
             exit(1);
         }
         waitpid(player, NULL, 0);
