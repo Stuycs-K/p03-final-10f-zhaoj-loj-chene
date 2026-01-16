@@ -33,7 +33,7 @@ int start_mpg123_remote() {
   return 0;
 }
 
-void load_file(const char *filename) {
+void load_file(char *filename) {
     if (mpg123_stdin == -1) {
         fprintf(stderr, "mpg123 not running\n");
         return;

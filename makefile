@@ -5,14 +5,14 @@ default :
 
 compile: client server
 
-client: client.o networking.o
+client: client.o networking.o mp3control.o
 	@gcc -o client client.o networking.o
 
 server: server.o networking.o account.o playlist.o
 	@gcc -o server server.o networking.o account.o playlist.o
 
-mp3control: mp3control.o
-	@gcc -o mp3control mp3control.o
+mp3control.o: mp3control.c networking.h
+	@gcc -Wall -c mp3control.c
 
 client.o: client.c networking.h
 	@gcc -Wall -c client.c
@@ -26,17 +26,9 @@ networking.o: networking.c networking.h
 account.o: account.c account.h structs.h
 	@gcc -Wall -c account.c
 
-<<<<<<< HEAD
-mp3control.o: mp3control.c mp3control.h
-	@gcc -Wall -c mp3control.c
-
-clean:
-	@rm -f *.o client server temp.mp3 mp3control
-=======
 playlist.o: playlist.c playlist.h structs.h
 	@gcc -Wall -c playlist.c
 
 clean:
 	@rm -f *.o client server *.mp3
->>>>>>> main
 	@rm -f *~
