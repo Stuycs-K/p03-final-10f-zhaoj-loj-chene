@@ -159,10 +159,32 @@ void subserver_logic(int client_socket){
           if (!found){
             printf("error: playlist not found\n");
             fflush(stdout);
+          } else {
+
+            char header[300]; // send header: "play|playlist_name"
+            sprintf(header, "playlist|%s\n", args[2]);
+            send(client_socket, header, strlen(header), 0);
+
+            printf("playing playlist %s...\n", args[2]);
+            fflush(stdout);
+
+            FILE *playlist_file = fopen(args[2], "r");
+            char line[100];
+            int line_num = 0;
+
+            while(fgets(line, sizeof(line), playlist_file) != NULL){// send each song in the playlist sequentially
+                line_num++;
+                if(line_num == 1) continue; //skips first line bc thats just playlist name
+                line[strcspn(line, "\n")] = '\0';
+                if(strlen(line) == 0) continue; // just in case empty line
+                fflush(stdout);
+
+                send_song_file(client_socket, line);
+            }
+
+            printf("finished sending playlist %s\n", args[2]);
+            fflush(stdout);
           }
-          char header[300]; // send header: "play|playlist_name"
-          sprintf(header, "playlist|%s\n", args[2]);
-          send(client_socket, header, strlen(header), 0);
         }
       } else {
           char musicname[256];
