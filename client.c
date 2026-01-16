@@ -97,13 +97,18 @@ int main(int argc, char *argv[] ) {
 
         int player = fork();
         if(player == 0){
-            execlp("mpg123", "mpg123", filename, NULL);
+            execlp("mpg123", "mpg123", "-R", NULL);
             exit(1);
         }
         waitpid(player, NULL, 0);
         printf("done playing.\n");
         fflush(stdout);
-
+      } else if(strncmp(buffer, "VOL|", 4) == 0){
+          int volume;
+          sscanf(buffer, "VOL|%d", &volume);
+          set_volume(volume);
+      } else if(strcmp(buffer, "PAUSE\n") == 0){
+          pause_playback();
       } else if (strcmp(buffer, "exit\n") == 0){ // when user types exit
         exit(0); //weird outputs delete
         printf(">");
