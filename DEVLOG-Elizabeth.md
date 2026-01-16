@@ -47,3 +47,8 @@ Pushed project proposal into repo
 - add prompter each time after song finishes playing (10 min)
 - remove messages after exiting (15 min)
 - testing new updates/functions (5 min)
+- script for video and film video (1.5 hrs)
+
+### 2026-01-16 - update README.md
+- add group name (5 min)
+- add instructions (10 min)
