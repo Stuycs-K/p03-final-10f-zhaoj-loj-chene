@@ -58,6 +58,22 @@ int login(char* username, char* password, struct user* u_ptr){
   return 0;
 }
 
+//takes in a user pointer and copies the data onto users.dat
+void save(struct user* u_ptr){
+  int f = open("users.dat", O_RDWR | O_CREAT, 0666);
+  if (f < 0){
+    error();
+  }
+  struct user buff;
+  while(read(f, &buff, sizeof(struct user)) == sizeof(struct user)){
+    if (strcmp(buff.username, u_ptr->username) == 0 && strcmp(buff.password, u_ptr->password) == 0){
+      lseek(f, -1 * sizeof(struct user), SEEK_CUR);
+      write(f, u_ptr, sizeof(struct user));
+      break;
+    }
+  }
+  close(f);
+}
 
 //takes in a username and deletes that account in the users data file
 //removes nothing if username isn't there
