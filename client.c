@@ -22,18 +22,16 @@ int main(int argc, char *argv[] ) {
 
       if(strncmp(buffer, "play|", 5) == 0){
         char filename[100];
-        sscanf(buffer, "play|%s", filename);
 
-        printf("playing %s...\n", filename); // play the file
-        fflush(stdout);
-
-        printf("mpg123_pid is %d \n", mpg123_pid);
-        fflush(stdout);
-        
         if(mpg123_pid == -1){
             start_mpg123_remote();
             sleep(1); // give mpg123 time to start
         }
+
+        sscanf(buffer, "play|%s", filename);
+
+        printf("playing %s...\n", filename); // play the file
+        fflush(stdout);
 
         int player = fork();
         if(player == 0){
@@ -73,6 +71,11 @@ int main(int argc, char *argv[] ) {
         printf("playing %s...\n", filename); // play the file
         fflush(stdout);
 
+        if(mpg123_pid == -1){
+            start_mpg123_remote();
+            sleep(1); // give mpg123 time to start
+        }
+
         int player = fork();
         if(player == 0){
             load_file(filename);
@@ -81,6 +84,22 @@ int main(int argc, char *argv[] ) {
         waitpid(player, NULL, 0);
         printf("done playing.\n");
         fflush(stdout);
+      } else if(strncmp(buffer, "playlist|", 9) == 0){
+        char playlistname[100];
+
+        printf("playing playlist %s...\n", playlistname);
+
+        sscanf(buffer, "FILE|%s", playlistname);
+
+        FILE *temp = fopen(filename, "wb"); // receive file data
+
+        if(mpg123_pid == -1){
+            start_mpg123_remote();
+            sleep(1); // give mpg123 time to start
+        }
+        
+        FILE *playlist_file = fopen(playlistname, "r");
+
       } else if(strncmp(buffer, "VOL|", 4) == 0){
           int volume;
           sscanf(buffer, "VOL|%d", &volume);

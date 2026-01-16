@@ -132,7 +132,7 @@ void subserver_logic(int client_socket){
             fflush(stdout);
           }
           char header[300]; // send header: "play|playlist_name"
-          sprintf(header, "play|%s\n", args[2]);
+          sprintf(header, "playlist|%s\n", args[2]);
           send(client_socket, header, strlen(header), 0);
         }
       } else {
@@ -148,7 +148,6 @@ void subserver_logic(int client_socket){
             musicname[namelen - 1] = '\0';
           }
           strcat(path, musicname);
-          printf("searching for song %s \n", path);
 
           FILE *file = fopen(path, "rb");
           if(!file){
