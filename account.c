@@ -80,6 +80,7 @@ void save(struct user* u_ptr){
 void delete_account(char* username){
   int dat = open("users.dat", O_RDONLY, 0);
   if (dat < 0){
+
     error();
   }
   int tmp = open("users.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);

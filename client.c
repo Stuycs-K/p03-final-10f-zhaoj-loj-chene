@@ -105,7 +105,9 @@ int main(int argc, char *argv[] ) {
         printf("done playing.\n");
         fflush(stdout);
 
-      } else {
+      } else if (strcmp(buffer, "exit\n") == 0){ // when user types exit
+        exit(0); //weird outputs delete
+      }else {
         printf("%s", buffer); // regular text message
         fflush(stdout);
       }
