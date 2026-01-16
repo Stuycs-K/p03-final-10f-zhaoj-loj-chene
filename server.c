@@ -271,9 +271,6 @@ void subserver_logic(int client_socket){
         delete_account(current_user.username);
         break;
       } else {
-<<<<<<< HEAD
-
-=======
         int found = 0;
         for(int i = 0; i < 5; i++){
           if (strcmp(current_user.user_playlists[i].name, args[1]) == 0){
@@ -287,7 +284,6 @@ void subserver_logic(int client_socket){
           printf("error: playlist not found\n");
           fflush(stdout);
         }
->>>>>>> jayden
       }
     } else {
       printf("invalid command.\n");
