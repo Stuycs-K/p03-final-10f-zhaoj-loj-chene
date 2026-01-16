@@ -74,6 +74,7 @@ void save(struct user* u_ptr){
   }
   close(f);
 }
+
 //takes in a username and deletes that account in the users data file
 //removes nothing if username isn't there
 void delete_account(char* username){

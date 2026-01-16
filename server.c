@@ -121,7 +121,8 @@ void subserver_logic(int client_socket){
           for(int i = 0; i < 5; i++){
             if (strcmp(current_user.user_playlists[i].name, args[2]) == 0){
               found = 1;
-              write_playlist(current_user.user_playlists[i].name, &(current_user.user_playlists[i]));
+              usleep(100000); //for timing issues
+              write_playlist(args[2], &(current_user.user_playlists[i]));
               break;
             }
           }
@@ -129,6 +130,9 @@ void subserver_logic(int client_socket){
             printf("error: playlist not found\n");
             fflush(stdout);
           }
+          char header[300]; // send header: "play|playlist_name"
+          sprintf(header, "play|%s\n", args[2]);
+          send(client_socket, header, strlen(header), 0);
         }
       } else {
           char path[256] = "./music/";
@@ -167,8 +171,8 @@ void subserver_logic(int client_socket){
           }
           fclose(file);
         }
-    } else if (strcmp(args[0], "exit") == 0){  // to exit the play commands
-      save(&current_user); // to sign out of account and kill client
+    } else if (strcmp(args[0], "exit") == 0){  // to sign out of account and kill client
+      save(&current_user);
       send(client_socket, "exit", 50, 0);
       break;
     } else if (strcmp(args[0], "remove") == 0){

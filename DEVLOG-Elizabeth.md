@@ -34,3 +34,9 @@ Pushed project proposal into repo
 - debug naming typos and type warnings (5 min)
 - fix exit command to send to redirect to client and exit client (15 min)
 - test (10 min)
+
+### 2026-01-14 - new playlist functions
+- updated temp file creation to create multiple for each user (5 min)
+- created function to list all user's playlists (10 min)
+- created function to make new playlist in slot (10 min)
+- created function to delete playlist (10 min)
