@@ -32,3 +32,18 @@ before, the server's child tried to play the music, fixed so that the child rece
 - comments included on what each part does
 server now sends mp3 file to client and client copies onto a temp.mp3 on its own folder (1.5 hr)
 now use that to combine with mpg123 with volume adjusting, pausing, etc
+
+### 2024-01-12 - audio control, pause, volume, playlists?
+can all be done just through mpg123 player so 1 hr of my life wasted
+
+### 2024-01-13 - better volume control
+was trying to add the audiocontrol.c but then undid changes (1.5 hrs) this is bc also the mpg123 terminal control only works when ur running it directly, we are doing it wrong rn and we have to run it remotely like specifically how it was to be run remotely with mpg123 -R, the inputs are on the txt file
+
+### 2024-01-14 - running mpg123 remotely
+you cant exec multiple at a time you give the mpg123 comamnds through writing into stdin testing with these (1 hr)
+
+### 2024-01-15 - running mpg123 remotely
+fixes, allowing for option video and editing the video 2 hr
+
+### 2024-01-16 - running mpg123 remotely
+ALL THESE CHANGES ARE ON MY BRANCH (Jason) because they are little buggy 3 hrs for the following funtionalities (i am writing this while sick so despite my 3 hours of time today, it was really inefficient) remote volume setting works but for some reason pause doesnt despite sending to same socket playlist running requires the mp3 files to be in the same folder, i tried making it so when playlist runs, it sends all teh files first but it gets too chaotic when the client is processing all the commands at once
