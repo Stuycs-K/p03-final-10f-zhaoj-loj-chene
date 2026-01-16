@@ -12,3 +12,19 @@ write h file for account features, and write login function. (1.5 hrs)
 
 ### 2026-01-09 - login/create account prompt
 write and test functions for creating an account and prompting users to create or login using terminal input. (2 hrs)
+
+### 2026-01-12 - playlist read/write
+write functions to write to and read from a playlist file based on a playlist struct. (1.5 hrs)
+
+### 2026-01-13 - playlist edit functions
+write functions to edit and interact with playlists, ex. add, remove. (1.5 hrs)
+write delete account function. (20 min)
+
+### 2026-01-14 - play playlist and bugfix
+add user commands for playlists and account managing functions. (1.5 hrs)
+bugfixing (mostly duplicate structs/func includes). (20 min)
+
+### 2026-01-15 - user commands
+write the play playlist user command. (30 min)
+test and bugfix said command. (2 hrs)
+add more audio files (5 min)

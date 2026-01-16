@@ -46,4 +46,5 @@ you give the mpg123 comamnds through writing into stdin
 testing with these (1 hr)
 
 ### 2024-01-15 - running mpg123 remotely
-fixes, allowing for option 
+fixes, allowing for option
+video and editing the video 2 hr
