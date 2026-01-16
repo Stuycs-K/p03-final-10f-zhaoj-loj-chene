@@ -8,14 +8,19 @@ int start_mpg123_remote() {
   int pipe_to_mpg123[2];   // parent writes, mpg123 reads
   int pipe_from_mpg123[2]; // mpg123 writes, parent reads
 
+  if (pipe(pipe_to_mpg123) == -1 || pipe(pipe_from_mpg123) == -1) {
+        perror("pipe failed");
+        return -1;
+  }
+
   mpg123_pid = fork();
 
   if (mpg123_pid == 0) {
-      close(pipe_to_mpg123[1]);    // close write end
-      close(pipe_from_mpg123[0]);  // close read end
-
       dup2(pipe_to_mpg123[0], STDIN_FILENO);
       dup2(pipe_from_mpg123[1], STDOUT_FILENO);
+
+      close(pipe_to_mpg123[1]);    // close write end
+      close(pipe_from_mpg123[0]);  // close read end
 
       close(pipe_to_mpg123[0]);
       close(pipe_from_mpg123[1]);
@@ -79,7 +84,7 @@ void set_volume(int percent) {
       printf("volume cannot negative, setting volume to 0");
       percent = 0;
     }
-    if (percent > 200) printf("be careful of volume over 200% \n");
+    if (percent > 200) printf("be careful of volume over 200 \n");
     char command[32];
     snprintf(command, sizeof(command), "V %d\n", percent);
     write(mpg123_stdin, command, strlen(command));
