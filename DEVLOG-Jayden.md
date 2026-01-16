@@ -23,3 +23,8 @@ write delete account function. (20 min)
 ### 2026-01-14 - user commands
 add user commands for playlists and account managing functions. (1.5 hrs)
 bugfixing (mostly duplicate structs/func includes). (20 min)
+
+### 2026-01-15 - user commands
+write the play playlist user command. (30 min)
+test and bugfix said command. (2 hrs)
+add more audio files (5 min)
