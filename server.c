@@ -85,6 +85,35 @@ void user_auth_prompt(struct user* u_ptr){
     }
   }
 }
+void send_song_file(int client_socket, const char* song_filename){
+  char path[256] = "./music/";
+  strcat(path, song_filename);
+
+  FILE *file = fopen(path, "rb");
+  if(!file){
+      printf("error: song %s not found, skipping\n", song_filename);
+      fflush(stdout);
+      return;
+  }
+
+  fseek(file, 0, SEEK_END);
+  long file_size = ftell(file);
+  rewind(file);
+
+  char header[300];
+  sprintf(header, "FILE|%ld|%s\n", file_size, song_filename);
+  send(client_socket, header, strlen(header), 0);
+
+  char file_buffer[BUFFER_SIZE];
+  size_t bytes_read;
+  while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
+      send(client_socket, file_buffer, bytes_read, 0);
+  }
+  fclose(file);
+
+  printf("sent %s to client\n", song_filename);
+  fflush(stdout);
+}
 
 void subserver_logic(int client_socket){
   dup2(client_socket, STDIN_FILENO);
@@ -136,40 +165,9 @@ void subserver_logic(int client_socket){
           send(client_socket, header, strlen(header), 0);
         }
       } else {
-          char path[256] = "./music/";
           char musicname[256];
           strcpy(musicname, args[1]);
-          int namelen = strlen(musicname);
-          if (musicname[0] == '<') {
-            memmove(musicname, musicname + 1, namelen);
-            namelen--;
-          }
-          if (namelen > 0 && musicname[namelen - 1] == '>') {
-            musicname[namelen - 1] = '\0';
-          }
-          strcat(path, musicname);
-
-          FILE *file = fopen(path, "rb");
-          if(!file){
-              printf("error: song not found\n");
-              fflush(stdout);
-              continue;
-          }
-
-          fseek(file, 0, SEEK_END);// get file size
-          long file_size = ftell(file);
-          rewind(file);
-
-          char header[300]; // send header: "FILE|size|filename\n"
-          sprintf(header, "FILE|%ld|%s\n", file_size, args[1]);
-          send(client_socket, header, strlen(header), 0);
-
-          char file_buffer[BUFFER_SIZE]; // Send file data
-          size_t bytes_read;
-          while((bytes_read = fread(file_buffer, 1, BUFFER_SIZE, file)) > 0){
-              send(client_socket, file_buffer, bytes_read, 0);
-          }
-          fclose(file);
+          send_song_file(client_socket,musicname);
         }
     } else if(strcmp(args[0], "vol") == 0){
         if(args[1] == NULL){
