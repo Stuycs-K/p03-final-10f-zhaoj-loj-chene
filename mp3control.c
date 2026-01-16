@@ -37,7 +37,7 @@ void adjust_volume(int percent) {
 
 int main() {
   while(fgets(buffer, BUFFER_SIZE, stdin) != NULL){
-    
+
   }
   execlp("mpg123", "mpg123", "-R", NULL);
 
