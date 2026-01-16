@@ -20,6 +20,8 @@ int add_song(struct playlist* p, char* name){
   for(int i = 0; i < 50; i++){
     if(p->songs[i][0] == '\0'){
       strcpy(p->songs[i], name);
+      printf("successfully added %s\n", name);
+      fflush(stdout);
       return 1;
     }
   }
@@ -37,6 +39,8 @@ int remove_song(struct playlist* p, char* name){
   if (i == 50){ //song not found
     return 0;
   }
+  printf("successfully removed %s\n", name);
+  fflush(stdout);
   for(int k = i; k < 50 - 1; k++){ //shift songs to clear gap
     strcpy(p->songs[k], p->songs[k + 1]);
   }
