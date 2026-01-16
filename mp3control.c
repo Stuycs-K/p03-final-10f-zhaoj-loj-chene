@@ -43,7 +43,7 @@ void load_file(char *filename) {
         fprintf(stderr, "trying to load, but mpg123 not running\n");
         return;
     }
-
+    
     char command[BUFFER_SIZE];
     snprintf(command, sizeof(command), "LOAD %s\n", filename);
     write(mpg123_stdin, command, strlen(command));

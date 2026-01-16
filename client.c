@@ -86,19 +86,39 @@ int main(int argc, char *argv[] ) {
         fflush(stdout);
       } else if(strncmp(buffer, "playlist|", 9) == 0){
         char playlistname[100];
+        sscanf(buffer, "playlist|%s", playlistname);
 
         printf("playing playlist %s...\n", playlistname);
 
-        sscanf(buffer, "FILE|%s", playlistname);
-
-        FILE *temp = fopen(filename, "wb"); // receive file data
+        FILE *playlist_file = fopen(playlistname, "r");
 
         if(mpg123_pid == -1){
             start_mpg123_remote();
             sleep(1); // give mpg123 time to start
         }
-        
-        FILE *playlist_file = fopen(playlistname, "r");
+        char line[100];
+        int line_num = 0;
+
+        while(fgets(line, sizeof(line), playlist_file) != NULL){
+            line_num++;
+            if(line_num == 1) continue; //skips first line bc thats just playlist name
+            line[strcspn(line, "\n")] = '\0';
+            if(strlen(line) == 0) continue; // just in case empty line
+
+            printf("playing: %s\n", line);
+            fflush(stdout);
+
+            int player = fork();
+            if(player == 0){
+                load_file(line);
+                exit(1);
+            }
+            waitpid(player, NULL, 0);
+        }
+
+        fclose(playlist_file);
+        printf("finished playing playlist %s\n", playlistname);
+        fflush(stdout);
 
       } else if(strncmp(buffer, "VOL|", 4) == 0){
           int volume;
